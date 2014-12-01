@@ -22,6 +22,7 @@ class Resource(models.Model):
     creater = models.ForeignKey(User)
     created = models.DateTimeField('Created', auto_now_add=True)
     group = models.ForeignKey(Group)
+    memo = models.TextField('Memo', null=True, blank=True)
 
 # ------------ フォーム ------------ #
 
@@ -33,3 +34,4 @@ class CreateGroupForm(forms.Form):
 class AddResourceForm(forms.Form):
     name = forms.CharField(max_length=100)
     url = forms.URLField(max_length=100)
+    memo = forms.CharField(required=False, max_length=200, widget=forms.Textarea)

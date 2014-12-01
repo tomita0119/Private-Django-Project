@@ -28,12 +28,16 @@
     {% if resources %}
         <ul class="posted_resources">
         {% for resource in resources %}
-            <li>
-                <a href="{{ resource.url }}" class="posted_resources_name" target="_blank">{{ resource.name }}</a>
-                <ul>
+            <li class="posted_resource">
+                <a href="{{ resource.url }}" class="posted_resource_name" target="_blank">{{ resource.name }}</a>
+                <ul class="posted_resource_info">
                     <li>投稿日時 : {{ resource.created }}</li>
                     <li>投稿者 : {{ resource.creater.username }}</li>
+                    {% if resource.memo %}
+                    <li>メモ: {{ resource.memo }}</li>
+                    {% endif %}
                 </ul>
+                <hr />
             </li>
         {% endfor %}
         </ul>

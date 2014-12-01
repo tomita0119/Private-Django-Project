@@ -1,6 +1,15 @@
-.posted_resources_name{
+.posted_resource{
+    margin-bottom: 20px;
+}
+.posted_resource_name{
     font-size: 20px;
 }
 .form{
     margin-bottom: 50px;
+}
+ul{
+    list-style: none;
+}
+.posted_resource_info li{
+    margin-bottom: 5px;
 }
