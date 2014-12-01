@@ -1,29 +1,12 @@
-# README #
+# SURM #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Share Useful Resources for Members の略
 
-### What is this repository for? ###
+### インストールしたpipモジュール ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Django==1.6.8
+MySQL-python==1.2.5
+South==1.0
+django-bootstrap3==4.11.0
+django-registration==1.0
+wsgiref==0.1.2
