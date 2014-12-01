@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load static from staticfiles %}
+
+{% block additional_static %}
+<link href="{% static 'css/group_index.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h2>{{ group.name }}</h2>
+参加者: <br />
+<ul>
+    {% for join_user in join_users %}
+    <li>{{ join_user.username }}</li>
+    {% endfor %}
+</ul>
+<hr />
+<div class="container">
+    <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>
+<hr />
+<h4>投稿されたリソース一覧</h4>
+{% if resources %}
+    <ul class="posted_resources">
+    {% for resource in resources %}
+        <li>
+            <a href="{{ resource.url }}" class="posted_resources_name" target="_blank">{{ resource.name }}</a>
+            <ul>
+                <li>投稿日時 : {{ resource.created }}</li>
+                <li>投稿者 : {{ resource.creater.username }}</li>
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>投稿されたリソースはありません</p>
+{% endif %}
+{% endblock %}
