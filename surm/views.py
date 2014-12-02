@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
@@ -43,19 +44,21 @@ def group_index(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     join_users = User.objects.filter(joingroup__group__exact=group)
     
-    if request.method == 'POST':
-        form = AddResourceForm(request.POST)
-        if form.is_valid():
-            new_resource = Resource(name=form.cleaned_data['name'], url=form.cleaned_data['url'], creater=request.user, group=group, memo=form.cleaned_data['memo'])
-            new_resource.save()
+    if request.method == 'POST': # まずPOSTされたか判定
+        if 'view_count' in request.POST: # view_countがrequest.POST内にあれば以下の処理
+            form = AddResourceForm()
+            select_resource = get_object_or_404(Resource, pk=request.POST['view_count'])
+            print select_resource
+            select_resource.view += 1
+            select_resource.save()
+        else: # view_countじゃない，つまりリソースの新規投稿の場合はこっちの処理
+            form = AddResourceForm(request.POST)
+            if form.is_valid():
+                new_resource = Resource(name=form.cleaned_data['name'], url=form.cleaned_data['url'], creater=request.user, group=group, memo=form.cleaned_data['memo'])
+                new_resource.save()
     else:
         form = AddResourceForm()
     
-#     if request.method == 'POST':
-#         new_resource = Resource(name=request.POST['resource_title'], url=request.POST['resource_url'], creater=request.user, group=group)
-#         new_resource.save()
-#     except:
-#         pass
     resources = Resource.objects.filter(group=group).order_by('-created')
     
     context = {

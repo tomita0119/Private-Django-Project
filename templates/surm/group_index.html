@@ -29,10 +29,16 @@
         <ul class="posted_resources">
         {% for resource in resources %}
             <li class="posted_resource">
-                <a href="{{ resource.url }}" class="posted_resource_name" target="_blank">{{ resource.name }}</a>
+                <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form link_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="view_count" value="{{ resource.id }}" />
+                    <button type="submit" onClick="window.open('{{ resource.url }}')" class="link_btn">{{ resource.name }}</button>
+                </form>
+
                 <ul class="posted_resource_info">
                     <li>投稿日時 : {{ resource.created }}</li>
                     <li>投稿者 : {{ resource.creater.username }}</li>
+                    <li>閲覧数 : {{ resource.view }}</li>
                     {% if resource.memo %}
                     <li>メモ: {{ resource.memo }}</li>
                     {% endif %}

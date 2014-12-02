@@ -23,6 +23,7 @@ class Resource(models.Model):
     created = models.DateTimeField('Created', auto_now_add=True)
     group = models.ForeignKey(Group)
     memo = models.TextField('Memo', null=True, blank=True)
+    view = models.IntegerField('View', default=0)
 
 # ------------ フォーム ------------ #
 
