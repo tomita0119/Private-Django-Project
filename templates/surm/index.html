@@ -2,19 +2,25 @@
 {% load bootstrap3 %}
 {% load static from staticfiles %}
 
+{% block additional_static %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <h3>参加しているグループ</h3>
-    {% if mygroups %}
-        <ul>
-        {% for mygroup in mygroups %}
-            <li><a href="{% url 'surm.views.group_index' group_id=mygroup.id %}">{{ mygroup.name }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>参加グループはありません</p>
-    {% endif %}
-    <hr />
-    <a href="{% url 'surm.views.cre_group' %}" class="btn btn-success btn-sm">グループの作成</a>
+    <div class="container">
+        <h3>参加しているグループ</h3>
+        {% if mygroups %}
+            <ul class="mygroups">
+            {% for mygroup in mygroups %}
+                <li><a href="{% url 'surm.views.group_index' group_id=mygroup.id %}">{{ mygroup.name }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>参加グループはありません</p>
+        {% endif %}
+        <hr />
+        <a href="{% url 'surm.views.cre_group' %}" class="btn btn-success btn-sm">グループの作成</a>
+    </div>
 {% endblock %}

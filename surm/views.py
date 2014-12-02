@@ -56,8 +56,8 @@ def group_index(request, group_id):
 #         new_resource.save()
 #     except:
 #         pass
-    resources = Resource.objects.filter(group=group)
-    print resources
+    resources = Resource.objects.filter(group=group).order_by('-created')
+    
     context = {
         'title': group.name,
         'group': group,
