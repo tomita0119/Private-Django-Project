@@ -96,3 +96,12 @@ def add_group_member(request, group_id):
         'all_users': all_users,
     }
     return render(request, 'surm/add_group_member.html', context)
+
+
+def group_settings(request, group_id):
+    group = get_object_or_404(Group, pk=group_id)
+    
+    context = {
+        'title': 'グループ設定',
+    }
+    return render(request, 'surm/group_settings.html', context)
