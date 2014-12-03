@@ -11,12 +11,30 @@
 {% block content %}
 <div class="container">
     <h2>{{ group.name }}</h2>
-    参加者: <br />
-    <ul>
+    参加者: {{ join_users | length }}人 <br />
+    <table class="table table-striped">
+        <tr>
+            <th>ユーザ名</th>
+            <th>メールアドレス</th>
+            <th>役割</th>
+        </tr>
         {% for join_user in join_users %}
-        <li>{{ join_user.username }}</li>
+        <tr>
+            <td>
+                {{ join_user.username }}
+            </td>
+            <td>
+                {{ join_user.email }}
+            </td>
+            <td></td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
+    
+    {% if user.is_superuser %}
+    <a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-sm btn-success"><i class="fa fa-users"></i> ユーザをグループに追加</a>
+    {% endif %}
+    
     <hr />
     <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form">
         {% csrf_token %}
@@ -36,7 +54,7 @@
                 </form>
 
                 <ul class="posted_resource_info">
-                    <li>投稿日時 : {{ resource.created }}</li>
+                    <li>投稿日時 : {{ resource.created |date:"Y/m/d h:i:s"}}</li>
                     <li>投稿者 : {{ resource.creater.username }}</li>
                     <li>閲覧数 : {{ resource.view }}</li>
                     {% if resource.memo %}

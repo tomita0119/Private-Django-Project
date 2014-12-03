@@ -51,11 +51,19 @@ def group_index(request, group_id):
             print select_resource
             select_resource.view += 1
             select_resource.save()
-        else: # view_countじゃない，つまりリソースの新規投稿の場合はこっちの処理
+        elif 'name' in request.POST: # view_countじゃない，つまりリソースの新規投稿の場合はこっちの処理
             form = AddResourceForm(request.POST)
             if form.is_valid():
                 new_resource = Resource(name=form.cleaned_data['name'], url=form.cleaned_data['url'], creater=request.user, group=group, memo=form.cleaned_data['memo'])
                 new_resource.save()
+        elif 'add_user_id' in request.POST:
+            form = AddResourceForm()
+            print request.POST['add_user_id']
+            add_user = get_object_or_404(User, pk=request.POST['add_user_id'])
+            new_join_user = JoinGroup(user=add_user, group=group)
+            new_join_user.save()
+        else:
+            form = AddResourceForm()
     else:
         form = AddResourceForm()
     
@@ -70,3 +78,13 @@ def group_index(request, group_id):
     }
     return render(request, 'surm/group_index.html', context)
 
+
+def add_group_member(request, group_id):
+    group = get_object_or_404(Group, pk=group_id)
+    all_users = User.objects.exclude(joingroup__group__exact=group)
+    context = {
+        'title': 'メンバー追加',
+        'group': group,
+        'all_users': all_users,
+    }
+    return render(request, 'surm/add_group_member.html', context)

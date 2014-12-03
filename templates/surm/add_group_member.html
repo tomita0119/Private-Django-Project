@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load static from staticfiles %}
+
+{% block additional_static %}
+
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+<div class="container">
+    <h4>参加していないユーザ</h4>
+    {% if all_users %}
+    <table class="table table-striped">
+        {% for all_user in all_users %}
+        <tr>
+            <td>
+                {{ all_user.username }}
+            </td>
+            <td>
+                <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" >
+                    {% csrf_token %}
+                    <input type="hidden" name="add_user_id" value="{{ all_user.id }}" />
+                    <input type="submit" class="btn btn-xs btn-success" value="追加" />
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>※ 全てのユーザが参加しています</p>
+    {% endif %}
+{% else %}
+<p>アクセス権限がありません</p>
+{% endif %}
+</div>
+{% endblock %}
