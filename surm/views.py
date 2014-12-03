@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
-from surm.models import Group, JoinGroup, Resource, CreateGroupForm, AddResourceForm
+from surm.models import Group, JoinGroup, Resource, CreateGroupForm, AddResourceForm, GroupSettingsForm
 
 def index(request):
     if request.method == 'POST':
@@ -100,8 +100,18 @@ def add_group_member(request, group_id):
 
 def group_settings(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
+    if request.method == 'POST': # まずPOSTされたか判定
+        if 'group_name' in request.POST:
+            form = GroupSettingsForm(request.POST)
+            if form.is_valid():
+                group.name = form.cleaned_data['group_name']
+                group.save()
+    else:
+        form = GroupSettingsForm()
     
     context = {
         'title': 'グループ設定',
+        'group': group,
+        'form': form
     }
     return render(request, 'surm/group_settings.html', context)

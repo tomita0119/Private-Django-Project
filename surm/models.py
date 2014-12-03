@@ -37,3 +37,7 @@ class AddResourceForm(forms.Form):
     name = forms.CharField(max_length=100)
     url = forms.URLField(max_length=100)
     memo = forms.CharField(required=False, max_length=200, widget=forms.Textarea)
+
+# グループ設定のフォーム
+class GroupSettingsForm(forms.Form):
+    group_name = forms.CharField(max_length=100)

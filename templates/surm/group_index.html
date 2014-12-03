@@ -20,6 +20,7 @@
         <tr>
             <th>ユーザ名</th>
             <th>メールアドレス</th>
+            <th>最終ログイン</th>
             <th>役割</th>
         </tr>
         {% for join_user in join_users %}
@@ -29,6 +30,9 @@
             </td>
             <td>
                 {{ join_user.email }}
+            </td>
+            <td>
+                {{ join_user.last_login }}
             </td>
             <td>
                 {% if join_user.id == group.creater.id %}
@@ -64,7 +68,7 @@
                 </form>
 
                 <ul class="posted_resource_info">
-                    <li>投稿日時 : {{ resource.created |date:"Y/m/d h:i:s"}}</li>
+                    <li>投稿日時 : {{ resource.created }}</li>
                     <li>投稿者 : {{ resource.creater.username }}</li>
                     <li>閲覧数 : {{ resource.view }}</li>
                     {% if resource.memo %}
