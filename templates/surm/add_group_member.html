@@ -9,8 +9,8 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-{% if user.is_superuser %}
 <div class="container">
+{% if user.is_superuser %}
     <h4>参加していないユーザ</h4>
     {% if all_users %}
     <table class="table table-striped">

@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from surm.models import Group, JoinGroup, Resource, CreateGroupForm, AddResourceForm
 
 def index(request):
@@ -14,7 +14,6 @@ def index(request):
             jg = JoinGroup(user=request.user, group=g)
             jg.save()
         else:
-            pass
             return HttpResponseRedirect('/surm/cre_group/')
     
     try:
@@ -41,8 +40,17 @@ def cre_group(request):
     
     
 def group_index(request, group_id):
+    
     group = get_object_or_404(Group, pk=group_id)
     join_users = User.objects.filter(joingroup__group__exact=group)
+    
+    member_flg = False
+    for join_user in join_users:
+        if request.user == join_user:
+            member_flg = True
+            break
+    if member_flg == False:
+        return HttpResponseForbidden()
     
     if request.method == 'POST': # まずPOSTされたか判定
         if 'view_count' in request.POST: # view_countがrequest.POST内にあれば以下の処理

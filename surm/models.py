@@ -9,6 +9,7 @@ from django import forms
 class Group(models.Model):
     name = models.CharField('Name', max_length=100)
     created = models.DateTimeField('Created', auto_now_add=True)
+    creater = models.ForeignKey(User)
 
 # 参加しているグループ
 class JoinGroup(models.Model):

@@ -5,9 +5,11 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<form action="{% url 'surm.views.index' %}" method="post" class="form">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <button type="submit" class="btn btn-default">作成する</button>
-</form>
+<div class="container">
+    <form action="{% url 'surm.views.index' %}" method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-default">作成する</button>
+    </form>
+</div>
 {% endblock %}

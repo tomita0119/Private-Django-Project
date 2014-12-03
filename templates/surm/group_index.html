@@ -26,7 +26,13 @@
             <td>
                 {{ join_user.email }}
             </td>
-            <td></td>
+            <td>
+                {% if join_user.id == group.creater.id %}
+                <span class="label label-primary">作成者</span> <span class="label label-info">管理者</span>
+                {% else %}
+                <span class="label label-default">一般ユーザ</span>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </table>

@@ -5,6 +5,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^surm/', include('surm.urls')),
+    url(r'^accounts/profile/', 'private_proj.views.profile'),
    
     url(r'^admin/', include(admin.site.urls)),
 )
