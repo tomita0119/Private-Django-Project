@@ -78,6 +78,13 @@
                     <li>投稿日時 : {{ resource.created }}</li>
                     <li>投稿者 : {{ resource.creater.username }}</li>
                     <li>閲覧数 : {{ resource.view }}</li>
+                    <li>閲覧者 : 
+                        {% for read_user in read_users %}
+                            {% if read_user.resource == resource %}
+                                {{ read_user.user.username }},
+                            {% endif %}
+                        {% endfor %}
+                    </li>
                     {% if resource.memo %}
                     <li>メモ: {{ resource.memo }}</li>
                     {% endif %}

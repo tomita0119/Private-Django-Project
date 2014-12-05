@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
-from surm.models import Group, JoinGroup, Resource, CreateGroupForm, AddResourceForm, GroupSettingsForm
+from surm.models import Group, JoinGroup, Resource, ResourceUserView, CreateGroupForm, AddResourceForm, GroupSettingsForm
 
 def index(request):
     if request.method == 'POST':
@@ -28,8 +28,8 @@ def index(request):
             'title': 'index'
         }
     return render(request, 'surm/index.html', context)
-    
-    
+
+
 def cre_group(request):
     form = CreateGroupForm()
     context = {
@@ -37,13 +37,14 @@ def cre_group(request):
         'form': form
     }
     return render(request, 'surm/cre_group.html', context)
-    
-    
+
+
 def group_index(request, group_id):
     
     group = get_object_or_404(Group, pk=group_id)
     join_users = User.objects.filter(joingroup__group__exact=group)
     
+    # グループに参加していないユーザからのアクセスにはForbiddenを返す
     member_flg = False
     for join_user in join_users:
         if request.user == join_user:
@@ -52,6 +53,7 @@ def group_index(request, group_id):
     if member_flg == False:
         return HttpResponseForbidden()
     
+    # POSTされた値によって処理を変化
     if request.method == 'POST': # まずPOSTされたか判定
         if 'view_count' in request.POST: # view_countがrequest.POST内にあれば以下の処理
             form = AddResourceForm()
@@ -59,30 +61,33 @@ def group_index(request, group_id):
             print select_resource
             select_resource.view += 1
             select_resource.save()
-        elif 'name' in request.POST: # view_countじゃない，つまりリソースの新規投稿の場合はこっちの処理
+            new_user_resource_view = ResourceUserView.objects.get_or_create(group=group, resource=select_resource, user=request.user)
+        elif 'name' in request.POST: # nameがrequest.POST内にあれば以下の処理
             form = AddResourceForm(request.POST)
-            if form.is_valid():
+            if form.is_valid(): # バリデート
                 new_resource = Resource(name=form.cleaned_data['name'], url=form.cleaned_data['url'], creater=request.user, group=group, memo=form.cleaned_data['memo'])
                 new_resource.save()
-        elif 'add_user_id' in request.POST:
+        elif 'add_user_id' in request.POST: # add_user_idがrequest.POST内にあれば以下の処理
             form = AddResourceForm()
             print request.POST['add_user_id']
             add_user = get_object_or_404(User, pk=request.POST['add_user_id'])
             new_join_user = JoinGroup(user=add_user, group=group)
             new_join_user.save()
-        else:
+        else: # それ以外(多分有り得ない)
             form = AddResourceForm()
-    else:
+    else: # POST値がない，普通のアクセスの場合
         form = AddResourceForm()
     
     resources = Resource.objects.filter(group=group).order_by('-created')
-    
+    read_users = ResourceUserView.objects.filter(group=group)
+
     context = {
         'title': group.name,
         'group': group,
         'resources': resources,
         'join_users': join_users,
-        'form': form
+        'form': form,
+        'read_users': read_users,
     }
     return render(request, 'surm/group_index.html', context)
 
