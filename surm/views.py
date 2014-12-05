@@ -9,7 +9,7 @@ def index(request):
     if request.method == 'POST':
         form = CreateGroupForm(request.POST)
         if form.is_valid():
-            g = Group(name=form.cleaned_data['name'])
+            g = Group(name=form.cleaned_data['name'], creater=request.user, explain=form.cleaned_data['explain'])
             g.save()
             jg = JoinGroup(user=request.user, group=g)
             jg.save()

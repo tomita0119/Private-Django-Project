@@ -27,11 +27,18 @@ class Resource(models.Model):
     memo = models.TextField('Memo', null=True, blank=True)
     view = models.IntegerField('View', default=0)
 
+# どのグループのどのリソースがどのユーザに閲覧されたかを記録
+class ResourceUserView(models.Model):
+    group = models.ForeignKey(Group)
+    resource = models.ForeignKey(Resource)
+    user = models.ForeignKey(User)
+
 # ------------ フォーム ------------ #
 
 # グループ追加のフォーム
 class CreateGroupForm(forms.Form):
     name = forms.CharField(max_length=100)
+    explain = forms.CharField(required=False, max_length=100, widget=forms.Textarea)
 
 # リソース追加のフォーム
 class AddResourceForm(forms.Form):
