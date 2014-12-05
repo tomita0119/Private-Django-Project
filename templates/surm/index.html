@@ -9,7 +9,6 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <div class="container">
         <h3>参加しているグループ</h3>
         {% if mygroups %}
             <ul class="mygroups">
@@ -22,5 +21,4 @@
         {% endif %}
 
         <a href="{% url 'surm.views.cre_group' %}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> グループの作成</a>
-    </div>
 {% endblock %}

@@ -9,6 +9,7 @@ from django import forms
 class Group(models.Model):
     name = models.CharField('Name', max_length=100)
     created = models.DateTimeField('Created', auto_now_add=True)
+    explain = models.CharField('Explain', max_length=100, null=True, blank=True)
     creater = models.ForeignKey(User)
 
 # 参加しているグループ
@@ -40,4 +41,5 @@ class AddResourceForm(forms.Form):
 
 # グループ設定のフォーム
 class GroupSettingsForm(forms.Form):
-    group_name = forms.CharField(max_length=100)
+    group_name = forms.CharField(required=False, max_length=100)
+    explain = forms.CharField(required=False, max_length=100, widget=forms.Textarea)

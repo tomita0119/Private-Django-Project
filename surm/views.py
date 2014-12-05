@@ -104,7 +104,11 @@ def group_settings(request, group_id):
         if 'group_name' in request.POST:
             form = GroupSettingsForm(request.POST)
             if form.is_valid():
-                group.name = form.cleaned_data['group_name']
+                if form.cleaned_data['group_name'] != '':
+                    group.name = form.cleaned_data['group_name']
+                if form.cleaned_data['explain'] != '':
+                    group.explain = form.cleaned_data['explain']
+                
                 group.save()
     else:
         form = GroupSettingsForm()

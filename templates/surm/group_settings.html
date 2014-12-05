@@ -5,13 +5,11 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="container">
     <h4>設定</h4>
     <form action="{% url 'surm.views.group_settings' group_id=group.id%}" method="post" class="form">
         {% csrf_token %}
         {% bootstrap_form form %}
         <button type="submit" class="btn btn-default">更新する</button>
     </form>
-</div>
 
 {% endblock %}
