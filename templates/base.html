@@ -57,15 +57,17 @@
 
     <div id="content">
         <div class="container">
-    {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
         </div>
     </div>
 
+    <hr />
     <div id="footer">
-    {% block footer %}
-        <hr />
-        <p>footer</p>
-    {% endblock %}
+        <footer>
+            {% block footer %}
+                <p>Copyright &copy; </p>
+            {% endblock %}
+        </footer>
     </div>
 </body>
 

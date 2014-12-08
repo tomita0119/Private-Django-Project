@@ -4,6 +4,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^$', 'private_proj.views.index'),
     url(r'^surm/', include('surm.urls')),
     url(r'^accounts/profile/', 'private_proj.views.profile'),
    
