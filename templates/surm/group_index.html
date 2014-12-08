@@ -4,6 +4,9 @@
 
 {% block additional_static %}
 <link href="{% static 'css/group_index.css' %}" rel="stylesheet">
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/csrf_token_ajax.js' %}"></script>
+<script src="{% static 'js/group_index.js' %}"></script>
 {% endblock %}
 
 {% block title %}{{ title }}{% endblock %}
@@ -52,12 +55,12 @@
         {% endfor %}
     </table>
     
-    {% if user.is_superuser %}
+    {% if user.is_superuser or user.id == group.creater.id %}
     <a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-sm btn-success"><i class="fa fa-users"></i> ユーザをグループに追加</a>
     {% endif %}
     
     <hr />
-    <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form">
+    <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
         {% csrf_token %}
         {% bootstrap_form form %}
         <button type="submit" class="btn btn-default">Submit</button>
@@ -68,12 +71,7 @@
         <ul class="posted_resources">
         {% for resource in resources %}
             <li class="posted_resource">
-                <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form link_form">
-                    {% csrf_token %}
-                    <input type="hidden" name="view_count" value="{{ resource.id }}" />
-                    <button type="submit" onClick="window.open('{{ resource.url }}')" class="link_btn">{{ resource.name }}</button>
-                </form>
-
+                <button class="link_btn" id="{{ resource.id }}" onclick="window.open('{{ resource.url }}')">{{ resource.name }}</button>
                 <ul class="posted_resource_info">
                     <li>投稿日時 : {{ resource.created }}</li>
                     <li>投稿者 : {{ resource.creater.username }}</li>

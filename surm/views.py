@@ -55,9 +55,11 @@ def group_index(request, group_id):
     
     # POSTされた値によって処理を変化
     if request.method == 'POST': # まずPOSTされたか判定
-        if 'view_count' in request.POST: # view_countがrequest.POST内にあれば以下の処理
+    
+        if 'ajax' in request.POST: # ajaxがrequest.POST内にあれば以下の処理
+            print 'ajax success'
             form = AddResourceForm()
-            select_resource = get_object_or_404(Resource, pk=request.POST['view_count'])
+            select_resource = get_object_or_404(Resource, pk=request.POST['ajax'])
             print select_resource
             select_resource.view += 1
             select_resource.save()
@@ -75,6 +77,7 @@ def group_index(request, group_id):
             new_join_user.save()
         else: # それ以外(多分有り得ない)
             form = AddResourceForm()
+    
     else: # POST値がない，普通のアクセスの場合
         form = AddResourceForm()
     
