@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import urllib
+import re
+
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
@@ -7,7 +10,7 @@ from surm.models import Group, JoinGroup, Resource, ResourceUserView, CreateGrou
 
 def index(request):
     
-    error_message = None
+    message = None
     
     if request.method == 'POST':
         if 'name' in request.POST:
@@ -36,7 +39,7 @@ def index(request):
             
             group.delete()
             
-            error_message = u'グループ ' +group_name+ u' を削除しました．'
+            message = u'グループ ' +group_name+ u' を削除しました．'
     
     try:
         mygroups = Group.objects.filter(joingroup__user__exact=request.user)
@@ -44,7 +47,7 @@ def index(request):
         context = {
             'title': 'index',
             'mygroups': mygroups,
-            'error_message': error_message
+            'message': message
         }
     except:
         context = {
@@ -87,10 +90,13 @@ def group_index(request, group_id):
             select_resource.view += 1
             select_resource.save()
             new_user_resource_view = ResourceUserView.objects.get_or_create(group=group, resource=select_resource, user=request.user)
-        elif 'name' in request.POST: # nameがrequest.POST内にあれば以下の処理
+        elif 'url' in request.POST: # urlがrequest.POST内にあれば以下の処理
             form = AddResourceForm(request.POST)
             if form.is_valid(): # バリデート
-                new_resource = Resource(name=form.cleaned_data['name'], url=form.cleaned_data['url'], creater=request.user, group=group, memo=form.cleaned_data['memo'])
+                # ページタイトルはre，urllibを使ってURLから取得
+                posted_url_info = urllib.urlopen(form.cleaned_data['url']).read()
+                title = re.findall(r'<title>(.*)</title>', posted_url_info)
+                new_resource = Resource(name=title[0].decode('utf-8'), url=form.cleaned_data['url'], creater=request.user, group=group, memo=form.cleaned_data['memo'])
                 new_resource.save()
         elif 'add_user_id' in request.POST: # add_user_idがrequest.POST内にあれば以下の処理
             form = AddResourceForm()

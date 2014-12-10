@@ -42,7 +42,7 @@ class CreateGroupForm(forms.Form):
 
 # リソース追加のフォーム
 class AddResourceForm(forms.Form):
-    name = forms.CharField(max_length=100)
+#     name = forms.CharField(max_length=100)
     url = forms.URLField(max_length=100, label='URL')
     memo = forms.CharField(required=False, max_length=200, widget=forms.Textarea, label='Memo (Optional)')
 
