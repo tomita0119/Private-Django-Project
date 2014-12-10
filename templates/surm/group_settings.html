@@ -2,6 +2,12 @@
 {% load bootstrap3 %}
 {% load static from staticfiles %}
 
+{% block additional_static %}
+<link rel="stylesheet" href="{% static 'css/group_settings.css' %}" />
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/group_settings.js' %}"></script>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
@@ -10,6 +16,16 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         <button type="submit" class="btn btn-default">更新する</button>
+    </form>
+    <br />
+    
+    <button class="btn btn-sm btn-danger dlt_group">グループを削除</button>
+    <form action="{% url 'surm.views.index' %}" method="post" class="form confirm">
+        {% csrf_token %}
+        グループを削除してもよろしいですか？
+        <input type="hidden" name="dlt_group_id" value="{{ group.id }}" />
+        <input type="submit" class="btn btn-xs btn-danger" value="はい" />
+        <button class="btn btn-xs btn-default">いいえ</button>
     </form>
 
 {% endblock %}

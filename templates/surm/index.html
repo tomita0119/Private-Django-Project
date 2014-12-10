@@ -9,16 +9,20 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-        <h3>参加しているグループ</h3>
-        {% if mygroups %}
-            <ul class="mygroups">
-            {% for mygroup in mygroups %}
-                <li><a href="{% url 'surm.views.group_index' group_id=mygroup.id %}">{{ mygroup.name }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>参加グループはありません</p>
-        {% endif %}
+    {% if error_message %}
+    <p>{{ error_message }}</p>
+    {% endif %}
+    
+    <h3>参加しているグループ</h3>
+    {% if mygroups %}
+        <ul class="mygroups">
+        {% for mygroup in mygroups %}
+            <li><a href="{% url 'surm.views.group_index' group_id=mygroup.id %}">{{ mygroup.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>参加グループはありません</p>
+    {% endif %}
 
-        <a href="{% url 'surm.views.cre_group' %}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> グループの作成</a>
+    <a href="{% url 'surm.views.cre_group' %}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> グループの作成</a>
 {% endblock %}

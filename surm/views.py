@@ -6,15 +6,36 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from surm.models import Group, JoinGroup, Resource, ResourceUserView, CreateGroupForm, AddResourceForm, GroupSettingsForm
 
 def index(request):
+    
+    error_message = None
+    
     if request.method == 'POST':
-        form = CreateGroupForm(request.POST)
-        if form.is_valid():
-            g = Group(name=form.cleaned_data['name'], creater=request.user, explain=form.cleaned_data['explain'])
-            g.save()
-            jg = JoinGroup(user=request.user, group=g)
-            jg.save()
-        else:
-            return HttpResponseRedirect('/surm/cre_group/')
+        if 'name' in request.POST:
+            form = CreateGroupForm(request.POST)
+            if form.is_valid():
+                g = Group(name=form.cleaned_data['name'], creater=request.user, explain=form.cleaned_data['explain'])
+                g.save()
+                jg = JoinGroup(user=request.user, group=g)
+                jg.save()
+            else:
+                return HttpResponseRedirect('/surm/cre_group/')
+        if 'dlt_group_id' in request.POST:
+            print request.POST['dlt_group_id']
+            group = get_object_or_404(Group, pk=request.POST['dlt_group_id'])
+            group_name = group.name
+            
+            dlt_resourceuserview = ResourceUserView.objects.filter(group=group)
+            dlt_resourceuserview.delete()
+            
+            dlt_resource = Resource.objects.filter(group=group)
+            dlt_resource.delete()
+            
+            dlt_joingroup = JoinGroup.objects.filter(group=group)
+            dlt_joingroup.delete()
+            
+            group.delete()
+            
+            error_message = u'グループ ' +group_name+ u' を削除しました．'
     
     try:
         mygroups = Group.objects.filter(joingroup__user__exact=request.user)
@@ -22,6 +43,7 @@ def index(request):
         context = {
             'title': 'index',
             'mygroups': mygroups,
+            'error_message': error_message
         }
     except:
         context = {
