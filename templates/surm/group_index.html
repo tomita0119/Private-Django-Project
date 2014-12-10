@@ -72,6 +72,9 @@
         {% for resource in resources %}
             <li class="posted_resource">
                 <button class="link_btn" id="{{ resource.id }}" onclick="window.open('{{ resource.url }}')">{{ resource.name }}</button>
+                {% if user.id == resource.creater.id %}
+                <button class="dlt_button"><i class="fa fa-times"></i></button>
+                {% endif %}
                 <ul class="posted_resource_info">
                     <li>投稿日時 : {{ resource.created }}</li>
                     <li>投稿者 : {{ resource.creater.username }}</li>

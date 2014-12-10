@@ -20,6 +20,7 @@ def index(request):
             else:
                 return HttpResponseRedirect('/surm/cre_group/')
         if 'dlt_group_id' in request.POST:
+            # グループ自体と，関連するデータを全て削除
             print request.POST['dlt_group_id']
             group = get_object_or_404(Group, pk=request.POST['dlt_group_id'])
             group_name = group.name

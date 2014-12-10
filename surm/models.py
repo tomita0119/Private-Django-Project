@@ -43,10 +43,10 @@ class CreateGroupForm(forms.Form):
 # リソース追加のフォーム
 class AddResourceForm(forms.Form):
     name = forms.CharField(max_length=100)
-    url = forms.URLField(max_length=100)
-    memo = forms.CharField(required=False, max_length=200, widget=forms.Textarea)
+    url = forms.URLField(max_length=100, label='URL')
+    memo = forms.CharField(required=False, max_length=200, widget=forms.Textarea, label='Memo (Optional)')
 
 # グループ設定のフォーム
 class GroupSettingsForm(forms.Form):
-    group_name = forms.CharField(required=False, max_length=100)
-    explain = forms.CharField(required=False, max_length=100, widget=forms.Textarea)
+    group_name = forms.CharField(required=False, max_length=100, label='Group Name (Optional)')
+    explain = forms.CharField(required=False, max_length=100, widget=forms.Textarea, label='Explain (Optional)')
