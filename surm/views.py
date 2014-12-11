@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import urllib
 import re
+import json
 
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, Http404
 from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, CreateGroupForm, AddResourceForm, GroupSettingsForm
 
 def index(request):
@@ -113,6 +114,12 @@ def group_index(request, group_id):
             form = AddResourceForm()
             select_resource = get_object_or_404(Resource, pk=request.POST['favorite_resource_id'])
             new_resource_user_favorite = ResourceUserFavorite.objects.get_or_create(group=group, resource=select_resource, user=request.user)
+            print new_resource_user_favorite[1]
+            if new_resource_user_favorite[1] == True:
+                response = json.dumps({'favorite_success': True})
+            else:
+                response = json.dumps({'favorite_success': False})
+            return HttpResponse(response, mimetype='text/javascript')
             
         else: # それ以外(多分有り得ない)
             form = AddResourceForm()
@@ -123,7 +130,7 @@ def group_index(request, group_id):
     resources = Resource.objects.filter(group=group).order_by('-created')
     read_users = ResourceUserView.objects.filter(group=group)
     favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:10]
-    my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user)
+    my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')
     
     context = {
         'title': group.name,

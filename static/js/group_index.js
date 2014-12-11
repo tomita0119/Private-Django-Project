@@ -19,7 +19,7 @@ $(document).ready(function(){
     }
     
     function FavoriteResource(button){
-        console.log(button.id);
+        console.log(button);
         $.ajax({
             'url': $('form.resource_add_form').attr('action'),
             'type': 'POST',
@@ -28,7 +28,12 @@ $(document).ready(function(){
             },
             'dataType': 'json',
             'success':function(response){
-                console.log('success!');
+                console.log(response.favorite_success);
+                if(response.favorite_success){
+                    $(button).parent().prepend('<p>お気に入りに登録しました.</p>');
+                } else {
+                    $(button).parent().prepend('<p>既にお気に入りに登録されています.</p>');
+                }
             },
         });
     }
