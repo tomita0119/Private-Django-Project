@@ -60,6 +60,38 @@
     {% endif %}
     
     <hr />
+    
+    <h4>自分のお気に入り</h4>
+    <table class="table table-striped">
+        <tr>
+            <th>お気に入り日時</th>
+            <th>リソース名</th>
+        </tr>
+        {% for my_favorite_resource in my_favorite_resources %}
+        <tr>
+            <td>{{ my_favorite_resource.favorited }}</td>
+            <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h4>グループ内のお気に入り履歴</h4>
+    <table class="table table-striped">
+        <tr>
+            <th>お気に入り日時</th>
+            <th>ユーザ名</th>
+            <th>リソース名</th>
+        </tr>
+        {% for favorite_resource in favorite_resources_history %}
+        <tr>
+            <td>{{ favorite_resource.favorited }}</td>
+            <td>{{ favorite_resource.user.username }}</td>
+            <td><a href="{{ favorite_resource.resource.url }}" class="post_resource_btn" id="{{ favorite_resource.resource.id }}" target="_blank">{{ favorite_resource.resource.name }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <hr />
     <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
         {% csrf_token %}
         {% bootstrap_form form %}
@@ -71,9 +103,10 @@
         <ul class="posted_resources">
         {% for resource in resources %}
             <li class="posted_resource">
-                <button class="link_btn" id="{{ resource.id }}" onclick="window.open('{{ resource.url }}')">{{ resource.name }}</button>
+                <button class="link_btn post_resource_btn" id="{{ resource.id }}" onclick="window.open('{{ resource.url }}')">{{ resource.name }}</button>
+                <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>
                 {% if user.id == resource.creater.id %}
-                <button class="dlt_button"><i class="fa fa-times"></i></button>
+                <button class="dlt_button icon_button" id="{{ resource.id }}"><i class="fa fa-times"></i></button>
                 {% endif %}
                 <ul class="posted_resource_info">
                     <li>投稿日時 : {{ resource.created }}</li>

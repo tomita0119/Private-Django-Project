@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
-from surm.models import Group, JoinGroup, Resource, ResourceUserView, CreateGroupForm, AddResourceForm, GroupSettingsForm
+from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, CreateGroupForm, AddResourceForm, GroupSettingsForm
 
 def index(request):
     
@@ -90,6 +90,7 @@ def group_index(request, group_id):
             select_resource.view += 1
             select_resource.save()
             new_user_resource_view = ResourceUserView.objects.get_or_create(group=group, resource=select_resource, user=request.user)
+            
         elif 'url' in request.POST: # urlがrequest.POST内にあれば以下の処理
             form = AddResourceForm(request.POST)
             if form.is_valid(): # バリデート
@@ -98,12 +99,21 @@ def group_index(request, group_id):
                 title = re.findall(r'<title>(.*)</title>', posted_url_info)
                 new_resource = Resource(name=title[0].decode('utf-8'), url=form.cleaned_data['url'], creater=request.user, group=group, memo=form.cleaned_data['memo'])
                 new_resource.save()
+                form = AddResourceForm()
+                
         elif 'add_user_id' in request.POST: # add_user_idがrequest.POST内にあれば以下の処理
             form = AddResourceForm()
             print request.POST['add_user_id']
             add_user = get_object_or_404(User, pk=request.POST['add_user_id'])
             new_join_user = JoinGroup(user=add_user, group=group)
             new_join_user.save()
+            
+        elif 'favorite_resource_id' in request.POST:
+            print 'favorite resource'
+            form = AddResourceForm()
+            select_resource = get_object_or_404(Resource, pk=request.POST['favorite_resource_id'])
+            new_resource_user_favorite = ResourceUserFavorite.objects.get_or_create(group=group, resource=select_resource, user=request.user)
+            
         else: # それ以外(多分有り得ない)
             form = AddResourceForm()
     
@@ -112,7 +122,9 @@ def group_index(request, group_id):
     
     resources = Resource.objects.filter(group=group).order_by('-created')
     read_users = ResourceUserView.objects.filter(group=group)
-
+    favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:10]
+    my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user)
+    
     context = {
         'title': group.name,
         'group': group,
@@ -120,7 +132,10 @@ def group_index(request, group_id):
         'join_users': join_users,
         'form': form,
         'read_users': read_users,
+        'favorite_resources_history': favorite_resources_history,
+        'my_favorite_resources': my_favorite_resources,
     }
+    
     return render(request, 'surm/group_index.html', context)
 
 

@@ -1,5 +1,6 @@
 $(document).ready(function(){
-    $('.link_btn').click(function(){ clickbtn(this); });
+    $('.post_resource_btn').click(function(){ clickbtn(this); });
+    $('.fav_button').click(function(){ FavoriteResource(this) });
     
     function clickbtn(button){
         console.log(button.id);
@@ -16,4 +17,20 @@ $(document).ready(function(){
             },
         });
     }
+    
+    function FavoriteResource(button){
+        console.log(button.id);
+        $.ajax({
+            'url': $('form.resource_add_form').attr('action'),
+            'type': 'POST',
+            'data':{
+                'favorite_resource_id': button.id,
+            },
+            'dataType': 'json',
+            'success':function(response){
+                console.log('success!');
+            },
+        });
+    }
+    
 });

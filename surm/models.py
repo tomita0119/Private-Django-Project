@@ -33,6 +33,13 @@ class ResourceUserView(models.Model):
     resource = models.ForeignKey(Resource)
     user = models.ForeignKey(User)
 
+# どのグループのどのリソースがどのユーザにお気に入りにされたかを記録
+class ResourceUserFavorite(models.Model):
+    group = models.ForeignKey(Group)
+    resource = models.ForeignKey(Resource)
+    user = models.ForeignKey(User)
+    favorited = models.DateTimeField('Favorited', auto_now_add=True)
+
 # ------------ フォーム ------------ #
 
 # グループ追加のフォーム
