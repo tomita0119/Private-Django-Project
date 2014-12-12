@@ -92,6 +92,10 @@
     </table>
     
     <hr />
+    <h5>登録されたタグ</h5>
+    {% for group_tag in group_tags %}
+    {{ group_tag.tag }} : ({{ group_tag.tagresource_set.all.count }})
+    {% endfor %}
     <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
         {% csrf_token %}
         {% bootstrap_form form %}
@@ -113,10 +117,15 @@
                     <li>投稿者 : {{ resource.creater.username }}</li>
                     <li>閲覧数 : {{ resource.view }}</li>
                     <li>閲覧者 : 
-                        {% for read_user in read_users %}
-                            {% if read_user.resource == resource %}
-                                {{ read_user.user.username }},
-                            {% endif %}
+                        {% for read_user in resource.resourceuserview_set.all %}
+                            {{ read_user.user.username }},
+                        {% endfor %}
+                    </li>
+                    <li>お気に入り数: {{ resource.resourceuserfavorite_set.all.count }}</li>
+                    <li>
+                        タグ:
+                        {% for tag in resource.tagresource_set.all %}
+                            {{ tag.tag.tag }},
                         {% endfor %}
                     </li>
                     {% if resource.memo %}
