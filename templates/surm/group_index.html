@@ -28,10 +28,12 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="group_info">
-                <h4>参加者: {{ join_users | length }}人</h4>
+                <ul class="list-inline">
+                    <li><h4>参加者: {{ join_users | length }}人</h4></li>
                 {% if user.is_superuser or user.id == group.creater.id %}
-                    <a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-xs btn-success add_member_btn"><i class="fa fa-users"></i> 追加</a>
+                    <li><a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-xs btn-success add_member_btn"><i class="fa fa-users"></i> 追加</a></li>
                 {% endif %}
+                </ul>
                 <ul class="join_users">
                     {% for join_user in join_users %}
                         <li><span class="username">{{ join_user.username }}</span>
@@ -75,11 +77,17 @@
                 <tr>
                     <th>お気に入り日時</th>
                     <th>リソース名</th>
+                    <th>タグ</th>
                 </tr>
                 {% for my_favorite_resource in my_favorite_resources %}
                 <tr>
                     <td>{{ my_favorite_resource.favorited }}</td>
                     <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
+                    <td>
+                        {% for tag in my_favorite_resource.resource.tagresource_set.all %}
+                            {{ tag.tag.tag }},
+                        {% endfor %}
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
