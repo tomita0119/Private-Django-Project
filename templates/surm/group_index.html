@@ -22,121 +22,112 @@
         {% endif %}
         {% if user.id == group.creater.id %}
         <a href="{% url 'surm.views.group_settings' group_id=group.id %}" class="btn btn-sm btn-primary"><i class="fa fa-cog"></i> グループの設定</a>
+        {% endif %}
     </div>
-    <br />
-    {% endif %}
-    参加者: {{ join_users | length }}人 <br />
-    <table class="table table-striped">
-        <tr>
-            <th>ユーザ名</th>
-            <th>メールアドレス</th>
-            <th>最終ログイン</th>
-            <th>役割</th>
-        </tr>
-        {% for join_user in join_users %}
-        <tr>
-            <td>
-                {{ join_user.username }}
-            </td>
-            <td>
-                {{ join_user.email }}
-            </td>
-            <td>
-                {{ join_user.last_login }}
-            </td>
-            <td>
-                {% if join_user.id == group.creater.id %}
-                <span class="label label-primary">作成者</span> <span class="label label-info">管理者</span>
-                {% else %}
-                <span class="label label-default">一般ユーザ</span>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    
-    {% if user.is_superuser or user.id == group.creater.id %}
-    <a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-sm btn-success"><i class="fa fa-users"></i> ユーザをグループに追加</a>
-    {% endif %}
-    
     <hr />
-    
-    <h4>自分のお気に入り</h4>
-    <table class="table">
-        <tr>
-            <th>お気に入り日時</th>
-            <th>リソース名</th>
-        </tr>
-        {% for my_favorite_resource in my_favorite_resources %}
-        <tr>
-            <td>{{ my_favorite_resource.favorited }}</td>
-            <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <h4>グループ内のお気に入り履歴</h4>
-    <table class="table">
-        <tr>
-            <th>お気に入り日時</th>
-            <th>ユーザ名</th>
-            <th>リソース名</th>
-        </tr>
-        {% for favorite_resource in favorite_resources_history %}
-        <tr>
-            <td>{{ favorite_resource.favorited }}</td>
-            <td>{{ favorite_resource.user.username }}</td>
-            <td><a href="{{ favorite_resource.resource.url }}" class="post_resource_btn" id="{{ favorite_resource.resource.id }}" target="_blank">{{ favorite_resource.resource.name }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    
-    <hr />
-    <h5>登録されたタグ</h5>
-    {% for group_tag in group_tags %}
-    {{ group_tag.tag }} : ({{ group_tag.tagresource_set.all.count }})
-    {% endfor %}
-    <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-    
-    <h4>投稿されたリソース一覧</h4>
-    {% if resources %}
-        <ul class="posted_resources">
-        {% for resource in resources %}
-            <li class="posted_resource">
-                <button class="link_btn post_resource_btn" id="{{ resource.id }}" onclick="window.open('{{ resource.url }}')">{{ resource.name }}</button>
-                <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>
-                {% if user.id == resource.creater.id %}
-                <button class="dlt_button icon_button" id="{{ resource.id }}"><i class="fa fa-times"></i></button>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="group_info">
+                <h4>参加者: {{ join_users | length }}人</h4>
+                {% if user.is_superuser or user.id == group.creater.id %}
+                    <a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-xs btn-success add_member_btn"><i class="fa fa-users"></i> 追加</a>
                 {% endif %}
-                <ul class="posted_resource_info">
-                    <li>投稿日時 : {{ resource.created }}</li>
-                    <li>投稿者 : {{ resource.creater.username }}</li>
-                    <li>閲覧数 : {{ resource.view }}</li>
-                    <li>閲覧者 : 
-                        {% for read_user in resource.resourceuserview_set.all %}
-                            {{ read_user.user.username }},
-                        {% endfor %}
-                    </li>
-                    <li>お気に入り数: {{ resource.resourceuserfavorite_set.all.count }}</li>
-                    <li>
-                        タグ:
-                        {% for tag in resource.tagresource_set.all %}
-                            {{ tag.tag.tag }},
-                        {% endfor %}
-                    </li>
-                    {% if resource.memo %}
-                    <li>メモ: {{ resource.memo }}</li>
-                    {% endif %}
+                <ul class="join_users">
+                    {% for join_user in join_users %}
+                        <li><span class="username">{{ join_user.username }}</span>
+                            {% if join_user.id == group.creater.id %}
+                                <span class="label label-primary">作成者</span> <span class="label label-info">管理者</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
                 </ul>
-                <hr />
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>投稿されたリソースはありません</p>
-    {% endif %}
+            </div>
+            
+            <div class="registered_tags">
+                <h4>登録されたタグ</h4>
+                <ul>
+                    {% for group_tag in group_tags %}
+                        <li>{{ group_tag.tag }}({{ group_tag.tagresource_set.all.count }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="favorite_info">
+                <h4>お気に入り履歴</h4>
+                <table class="table">
+                    <tr>
+                        <th>ユーザ名</th>
+                        <th>リソース名</th>
+                    </tr>
+                    {% for favorite_resource in favorite_resources_history %}
+                    <tr>
+                        <td>{{ favorite_resource.user.username }}</td>
+                        <td><a href="{{ favorite_resource.resource.url }}" class="post_resource_btn" id="{{ favorite_resource.resource.id }}" target="_blank">{{ favorite_resource.resource.name }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            
+            <h4>自分のお気に入り</h4>
+            <table class="table">
+                <tr>
+                    <th>お気に入り日時</th>
+                    <th>リソース名</th>
+                </tr>
+                {% for my_favorite_resource in my_favorite_resources %}
+                <tr>
+                    <td>{{ my_favorite_resource.favorited }}</td>
+                    <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+            <hr />
+            <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            
+            <h4>投稿されたリソース一覧</h4>
+            {% if resources %}
+                <ul class="posted_resources">
+                {% for resource in resources %}
+                    <li class="posted_resource">
+                        <button class="link_btn post_resource_btn" id="{{ resource.id }}" onclick="window.open('{{ resource.url }}')">{{ resource.name }}</button>
+                        <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>
+                        {% if user.id == resource.creater.id %}
+                        <button class="dlt_button icon_button" id="{{ resource.id }}"><i class="fa fa-times"></i></button>
+                        {% endif %}
+                        <ul class="posted_resource_info">
+                            <li>投稿日時 : {{ resource.created }}</li>
+                            <li>投稿者 : {{ resource.creater.username }}</li>
+                            <li>閲覧数 : {{ resource.view }}</li>
+                            <li>閲覧者 : 
+                                {% for read_user in resource.resourceuserview_set.all %}
+                                    {{ read_user.user.username }},
+                                {% endfor %}
+                            </li>
+                            <li>お気に入り数: {{ resource.resourceuserfavorite_set.all.count }}</li>
+                            <li>
+                                タグ:
+                                {% for tag in resource.tagresource_set.all %}
+                                    {{ tag.tag.tag }},
+                                {% endfor %}
+                            </li>
+                            {% if resource.memo %}
+                            <li>メモ: {{ resource.memo }}</li>
+                            {% endif %}
+                        </ul>
+                        <hr />
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>投稿されたリソースはありません</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

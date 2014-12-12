@@ -13,6 +13,21 @@
 ul{
     list-style: none;
 }
+.group_info{
+    margin-bottom: 20px;
+}
+ul.join_users li span.username{
+    font-size: 18px;
+}
+ul.join_users li{
+    margin-bottom: 5px;
+}
+.registered_tags{
+    margin-bottom: 20px;
+}
+.registered_tags ul li{
+    margin-bottom: 5px;
+}
 .posted_resource_info li{
     margin-bottom: 5px;
 }

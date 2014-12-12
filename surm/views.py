@@ -148,7 +148,7 @@ def group_index(request, group_id):
     read_users = ResourceUserView.objects.filter(group=group)
     favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:10]
     my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')
-    group_tags = Tag.objects.filter(group=group)
+    group_tags = Tag.objects.filter(group=group).order_by('tag')
     tag_resources = TagResource.objects.filter(group=group)
     
     context = {
