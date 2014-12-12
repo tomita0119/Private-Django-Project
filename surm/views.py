@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, Http404
-from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, CreateGroupForm, AddResourceForm, GroupSettingsForm
+from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, CreateGroupForm, AddResourceForm, GroupSettingsForm
 
 def index(request):
     
@@ -97,9 +97,26 @@ def group_index(request, group_id):
             if form.is_valid(): # バリデート
                 # ページタイトルはre，urllibを使ってURLから取得
                 posted_url_info = urllib.urlopen(form.cleaned_data['url']).read()
-                title = re.findall(r'<title>(.*)</title>', posted_url_info)
-                new_resource = Resource(name=title[0].decode('utf-8'), url=form.cleaned_data['url'], creater=request.user, group=group, memo=form.cleaned_data['memo'])
+                pattern = re.compile(r'<title>(.*)</title>', re.IGNORECASE)
+                title = pattern.findall(posted_url_info)
+                memos = re.split(r'\[(.*)\]', form.cleaned_data['memo']) # 正規表現でタグ以降だけ抽出
+                print title
+                try: # メモにタグしか書かなかった場合，IndexErrorを吐くのでそのときは例外処理
+                    new_resource = Resource(name=title[0].decode('utf-8'), url=form.cleaned_data['url'], creater=request.user, group=group, memo=memos[2])
+                except IndexError:
+                    new_resource = Resource(name=title[0].decode('utf-8'), url=form.cleaned_data['url'], creater=request.user, group=group)
                 new_resource.save()
+                
+                # 入力されたタグをタグテーブルへ
+                registered_tags = re.findall(r'\[(.*?)\]', form.cleaned_data['memo'])
+                print registered_tags
+                for registered_tag in registered_tags:
+                    new_tag = Tag.objects.get_or_create(group=group, tag=registered_tag)
+                    print new_tag[0]
+                    #new_tag.save()
+                    new_tag_resource = TagResource.objects.get_or_create(group=group, resource=new_resource, tag=new_tag[0])
+                    #new_tag_resource.save()
+                
                 form = AddResourceForm()
                 
         elif 'add_user_id' in request.POST: # add_user_idがrequest.POST内にあれば以下の処理
@@ -131,6 +148,7 @@ def group_index(request, group_id):
     read_users = ResourceUserView.objects.filter(group=group)
     favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:10]
     my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')
+    
     
     context = {
         'title': group.name,

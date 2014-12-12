@@ -42,6 +42,7 @@ class ResourceUserFavorite(models.Model):
 
 # タグ
 class Tag(models.Model):
+    group = models.ForeignKey(Group)
     tag = models.CharField('Name', max_length=100)
     registered = models.DateTimeField('Registered', auto_now_add=True)
 
