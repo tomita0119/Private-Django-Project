@@ -40,6 +40,17 @@ class ResourceUserFavorite(models.Model):
     user = models.ForeignKey(User)
     favorited = models.DateTimeField('Favorited', auto_now_add=True)
 
+# タグ
+class Tag(models.Model):
+    tag = models.CharField('Name', max_length=100)
+    registered = models.DateTimeField('Registered', auto_now_add=True)
+
+# どのタグがどのグループのどのリソースに付いているのかを記録
+class TagResource(models.Model):
+    group = models.ForeignKey(Group)
+    resource = models.ForeignKey(Resource)
+    tag = models.ForeignKey(Tag)
+
 # ------------ フォーム ------------ #
 
 # グループ追加のフォーム
