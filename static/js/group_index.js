@@ -1,6 +1,7 @@
 $(document).ready(function(){
     $('.post_resource_btn').click(function(){ clickbtn(this); });
     $('.fav_button').click(function(){ FavoriteResource(this) });
+    $('.dlt_button').click(function(){ ShowConfirm(this) });
     
     function clickbtn(button){
         console.log(button.id);
@@ -38,4 +39,8 @@ $(document).ready(function(){
         });
     }
     
+    function ShowConfirm(button){
+        console.log($(button).parent());
+        $(button).parent().children($('div.dlt_confirm')).show();
+    }
 });

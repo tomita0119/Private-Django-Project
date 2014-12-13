@@ -108,6 +108,14 @@
                         <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>
                         {% if user.id == resource.creater.id %}
                         <button class="dlt_button icon_button" id="{{ resource.id }}"><i class="fa fa-times"></i></button>
+                        <div class="dlt_confirm">
+                            <form action="{% url 'surm.views.group_index' group_id=group.id%}" method="post" class="form confirm">
+                                {% csrf_token %}
+                                本当に削除してもよろしいですか？
+                                <input type="hidden" name="dlt_resource_id" value="{{ resource.id }}" />
+                                <input type="submit" class="btn btn-xs btn-danger" value="はい" />
+                            </form>
+                        </div>
                         {% endif %}
                         <ul class="posted_resource_info">
                             <li>投稿日時 : {{ resource.created }}</li>

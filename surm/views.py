@@ -138,6 +138,13 @@ def group_index(request, group_id):
                 response = json.dumps({'favorite_success': False})
             return HttpResponse(response, mimetype='text/javascript')
             
+        elif 'dlt_resource_id' in request.POST:
+            
+            # 【メモ】リレーションを貼ってるレコードもDJangoが自動で削除してくれるっぽい
+            resource = get_object_or_404(Resource, pk=request.POST['dlt_resource_id'])
+            resource.delete()
+            form = AddResourceForm()
+            
         else: # それ以外(多分有り得ない)
             form = AddResourceForm()
     

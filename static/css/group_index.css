@@ -47,3 +47,9 @@ ul.join_users li{
     border-style: none;
     background: none;
 }
+.dlt_confirm{
+    display: none;
+}
+form.confirm{
+    margin-bottom: 3px;
+}
