@@ -12,21 +12,22 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
     <h2>{{ group.name }}</h2>
-    <div class="group_info">
-        <p>作成日 : {{ group.created }}</p>
-        {% if group.explain %}
-        <p>{{ group.explain }}</p>
-        {% else %}
-        
-        {% endif %}
-        {% if user.id == group.creater.id %}
-        <a href="{% url 'surm.views.group_settings' group_id=group.id %}" class="btn btn-sm btn-primary"><i class="fa fa-cog"></i> グループの設定</a>
-        {% endif %}
-    </div>
-    <hr />
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
+            <div class="group_info">
+                {% if group.explain %}
+                <p>{{ group.explain }}</p>
+                {% else %}
+                
+                {% endif %}
+                {% if user.id == group.creater.id %}
+                <a href="{% url 'surm.views.group_settings' group_id=group.id %}" class="btn btn-xs btn-primary"><i class="fa fa-cog"></i> グループの設定</a>
+                {% endif %}
+            </div>
             <div class="group_info">
                 <ul class="list-inline">
                     <li><h4>参加者: {{ join_users | length }}人</h4></li>
@@ -38,7 +39,7 @@
                     {% for join_user in join_users %}
                         <li><span class="username">{{ join_user.username }}</span>
                             {% if join_user.id == group.creater.id %}
-                                <span class="label label-primary">作成者</span> <span class="label label-info">管理者</span>
+                                <span class="label label-info">管理者</span>
                             {% endif %}
                         </li>
                     {% endfor %}
@@ -54,52 +55,19 @@
                 </ul>
             </div>
             
-            <div class="favorite_info">
-                <h4>お気に入り履歴</h4>
-                <table class="table">
-                    <tr>
-                        <th>ユーザ名</th>
-                        <th>リソース名</th>
-                    </tr>
-                    {% for favorite_resource in favorite_resources_history %}
-                    <tr>
-                        <td>{{ favorite_resource.user.username }}</td>
-                        <td><a href="{{ favorite_resource.resource.url }}" class="post_resource_btn" id="{{ favorite_resource.resource.id }}" target="_blank">{{ favorite_resource.resource.name }}</a></td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
         </div>
-        <div class="col-sm-9">
-            
-            <h4>自分のお気に入り</h4>
-            <table class="table">
-                <tr>
-                    <th>お気に入り日時</th>
-                    <th>リソース名</th>
-                    <th>タグ</th>
-                </tr>
-                {% for my_favorite_resource in my_favorite_resources %}
-                <tr>
-                    <td>{{ my_favorite_resource.favorited }}</td>
-                    <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
-                    <td>
-                        {% for tag in my_favorite_resource.resource.tagresource_set.all %}
-                            {{ tag.tag.tag }},
-                        {% endfor %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            
-            <hr />
+        
+        <div class="col-sm-7">
+            <h3 class="headding_3 post_resource_headding">リソースの投稿</h3>
+            <p>URLを入力すればページタイトルは自動入力されます．</p>
+            <p>[]で囲む事でタグを付ける事ができます．(例: [JavaScript][Python][チュートリアル])</p>
             <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
             
-            <h4>投稿されたリソース一覧</h4>
+            <h3 class="headding_3">投稿されたリソース一覧</h3>
             {% if resources %}
                 <ul class="posted_resources">
                 {% for resource in resources %}
@@ -144,6 +112,42 @@
             {% else %}
                 <p>投稿されたリソースはありません</p>
             {% endif %}
+        </div>
+        <div class="col-sm-3">
+            <h4 class="my_favorite_headding">自分のお気に入り</h4>
+            <table class="table">
+                <tr>
+                    <th>リソース名</th>
+                    <th>タグ</th>
+                </tr>
+                {% for my_favorite_resource in my_favorite_resources %}
+                <tr>
+                    <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
+                    <td>
+                        {% for tag in my_favorite_resource.resource.tagresource_set.all %}
+                            {{ tag.tag.tag }},
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+            <div class="favorite_info">
+                <h4>お気に入り履歴</h4>
+                <table class="table">
+                    <tr>
+                        <th>ユーザ名</th>
+                        <th>リソース名</th>
+                    </tr>
+                    {% for favorite_resource in favorite_resources_history %}
+                    <tr>
+                        <td>{{ favorite_resource.user.username }}</td>
+                        <td><a href="{{ favorite_resource.resource.url }}" class="post_resource_btn" id="{{ favorite_resource.resource.id }}" target="_blank">{{ favorite_resource.resource.name }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            
         </div>
     </div>
 {% endblock %}

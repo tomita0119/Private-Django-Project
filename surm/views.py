@@ -68,6 +68,8 @@ def cre_group(request):
 
 def group_index(request, group_id):
     
+    message = None
+    
     group = get_object_or_404(Group, pk=group_id)
     join_users = User.objects.filter(joingroup__group__exact=group)
     
@@ -143,6 +145,8 @@ def group_index(request, group_id):
             # 【メモ】リレーションを貼ってるレコードもDJangoが自動で削除してくれるっぽい
             resource = get_object_or_404(Resource, pk=request.POST['dlt_resource_id'])
             resource.delete()
+            message = u'リソースを削除しました'
+            
             form = AddResourceForm()
             
         else: # それ以外(多分有り得ない)
@@ -160,6 +164,7 @@ def group_index(request, group_id):
     
     context = {
         'title': group.name,
+        'message': message,
         'group': group,
         'resources': resources,
         'join_users': join_users,

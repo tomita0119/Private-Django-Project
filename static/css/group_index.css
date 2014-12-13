@@ -12,12 +12,13 @@
 }
 ul{
     list-style: none;
+    margin-left: -20px;
 }
 .group_info{
     margin-bottom: 20px;
 }
 ul.join_users li span.username{
-    font-size: 18px;
+    font-size: 16px;
 }
 ul.join_users li{
     margin-bottom: 5px;
@@ -28,14 +29,19 @@ ul.join_users li{
 .registered_tags ul li{
     margin-bottom: 5px;
 }
+.posted_resource_info{
+/*     padding-left: 30px; */
+}
 .posted_resource_info li{
+    font-size: 14px;
     margin-bottom: 5px;
 }
 .link_btn{
     border-style: none;
     background: none;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
+    text-align: left;
 }
 .link_form{
     margin-bottom: 0px;
@@ -52,4 +58,17 @@ ul.join_users li{
 }
 form.confirm{
     margin-bottom: 3px;
+}
+.headding_3{
+    font-weight: bold;
+    margin-top: 0px;
+}
+h2{
+    margin-top: 0px;
+}
+h4{
+    margin-top: 0px;
+}
+.list-inline{
+    margin-bottom: 0px;
 }
