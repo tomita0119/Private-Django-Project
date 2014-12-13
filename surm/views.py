@@ -199,3 +199,17 @@ def group_settings(request, group_id):
         'form': form
     }
     return render(request, 'surm/group_settings.html', context)
+
+
+def tag_filtering(request, group_id, tag_id):
+    group = get_object_or_404(Group, pk=group_id)
+    tag = get_object_or_404(Tag, pk=tag_id)
+    tag_resources = TagResource.objects.filter(group=group, tag=tag)
+    
+    context = {
+        'group': group,
+        'tag': tag,
+        'tag_resources': tag_resources,
+    }
+    
+    return render(request, 'surm/tag_filtering.html', context)

@@ -49,7 +49,7 @@
                 <h4>登録されたタグ</h4>
                 <ul>
                     {% for group_tag in group_tags %}
-                        <li>{{ group_tag.tag }}({{ group_tag.tagresource_set.all.count }})</li>
+                        <li><a href="{% url 'surm.views.tag_filtering' group_id=group.id tag_id=group_tag.id %}">{{ group_tag.tag }}({{ group_tag.tagresource_set.all.count }})</a></li>
                     {% endfor %}
                 </ul>
             </div>
