@@ -15,11 +15,14 @@
     
     <h3>参加しているグループ</h3>
     {% if mygroups %}
-        <ul class="mygroups">
-        {% for mygroup in mygroups %}
-            <li><a href="{% url 'surm.views.group_index' group_id=mygroup.id %}">{{ mygroup.name }}</a></li>
-        {% endfor %}
-        </ul>
+        <table class="table mygroups">
+            {% for mygroup in mygroups %}
+            <tr>
+                <td><a href="{% url 'surm.views.group_index' group_id=mygroup.id %}">{{ mygroup.name }}</a></td>
+                <td>{{ mygroup.explain }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     {% else %}
         <p>参加グループはありません</p>
     {% endif %}
