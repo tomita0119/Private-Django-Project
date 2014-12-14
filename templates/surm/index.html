@@ -16,10 +16,16 @@
     <h3>参加しているグループ</h3>
     {% if mygroups %}
         <table class="table mygroups">
+            <tr>
+                <th>グループ名</th>
+                <th>説明</th>
+                <th>作成者</th>
+            </tr>
             {% for mygroup in mygroups %}
             <tr>
                 <td><a href="{% url 'surm.views.group_index' group_id=mygroup.id %}">{{ mygroup.name }}</a></td>
                 <td>{{ mygroup.explain }}</td>
+                <td>{{ mygroup.creater.username }}</td>
             </tr>
             {% endfor %}
         </table>

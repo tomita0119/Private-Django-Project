@@ -16,14 +16,12 @@
         <p>{{ message }}</p>
     {% endif %}
     <h2>{{ group.name }}</h2>
+    {% if group.explain %}
+    <p>{{ group.explain }}</p>
+    {% endif %}
     <div class="row">
         <div class="col-sm-2">
             <div class="group_info">
-                {% if group.explain %}
-                <p>{{ group.explain }}</p>
-                {% else %}
-                
-                {% endif %}
                 {% if user.id == group.creater.id %}
                 <a href="{% url 'surm.views.group_settings' group_id=group.id %}" class="btn btn-xs btn-primary"><i class="fa fa-cog"></i> グループの設定</a>
                 {% endif %}
@@ -73,7 +71,6 @@
                 {% for resource in resources %}
                     <li class="posted_resource">
                         <button class="link_btn post_resource_btn" id="{{ resource.id }}" onclick="window.open('{{ resource.url }}')">{{ resource.name }}</button>
-                        <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>
                         {% if user.id == resource.creater.id %}
                         <button class="dlt_button icon_button" id="{{ resource.id }}"><i class="fa fa-times"></i></button>
                         <div class="dlt_confirm">
@@ -86,24 +83,22 @@
                         </div>
                         {% endif %}
                         <ul class="posted_resource_info">
-                            <li>投稿日時 : {{ resource.created }}</li>
-                            <li>投稿者 : {{ resource.creater.username }}</li>
-                            <li>閲覧数 : {{ resource.view }}</li>
-                            <li>閲覧者 : 
-                                {% for read_user in resource.resourceuserview_set.all %}
-                                    {{ read_user.user.username }},
-                                {% endfor %}
-                            </li>
-                            <li>お気に入り数: {{ resource.resourceuserfavorite_set.all.count }}</li>
+                            <li> <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>{{ resource.resourceuserfavorite_set.all.count }}　<span class="views">{{ resource.view }} Views</span></li>
+                            {% if resource.memo %}
+                            <li><span class="memo">{{ resource.memo }}</span></li>
+                            {% endif %}
                             <li>
-                                タグ:
+                                <i class="fa fa-tags"></i>
                                 {% for tag in resource.tagresource_set.all %}
                                     {{ tag.tag.tag }},
                                 {% endfor %}
                             </li>
-                            {% if resource.memo %}
-                            <li>メモ: {{ resource.memo }}</li>
-                            {% endif %}
+                            <li><i class="fa fa-eye"></i>
+                                {% for read_user in resource.resourceuserview_set.all %}
+                                    {{ read_user.user.username }},
+                                {% endfor %}
+                            </li>
+                            <li class="posted_user">{{ resource.created }} - {{ resource.creater.username }}</li>
                         </ul>
                         <hr />
                     </li>
@@ -136,7 +131,7 @@
                 <h4>お気に入り履歴</h4>
                 <table class="table">
                     <tr>
-                        <th>ユーザ名</th>
+                        <th></th>
                         <th>リソース名</th>
                     </tr>
                     {% for favorite_resource in favorite_resources_history %}
