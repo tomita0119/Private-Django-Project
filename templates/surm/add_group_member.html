@@ -22,7 +22,7 @@
                 <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" >
                     {% csrf_token %}
                     <input type="hidden" name="add_user_id" value="{{ all_user.id }}" />
-                    <input type="submit" class="btn btn-xs btn-success" value="追加" />
+                    <input type="submit" class="btn btn-xs btn-surm" value="追加" />
                 </form>
             </td>
         </tr>

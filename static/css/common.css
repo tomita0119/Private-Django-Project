@@ -1,7 +1,10 @@
-.btn{
+.btn-surm{
     background: #709eff;
     border: #709eff;
+    color: #ffffff;
 }
-.btn:hover{
+.btn-surm:hover{
     background: #3777ff;
+    border: #3777ff;
+    color: #ffffff;
 }

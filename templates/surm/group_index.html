@@ -23,14 +23,14 @@
         <div class="col-sm-2">
             <div class="group_info">
                 {% if user.id == group.creater.id %}
-                <a href="{% url 'surm.views.group_settings' group_id=group.id %}" class="btn btn-xs btn-primary"><i class="fa fa-cog"></i> グループの設定</a>
+                <a href="{% url 'surm.views.group_settings' group_id=group.id %}" class="btn btn-xs btn-surm"><i class="fa fa-cog"></i> グループの設定</a>
                 {% endif %}
             </div>
             <div class="group_info">
                 <ul class="list-inline">
                     <li><h4>参加者: {{ join_users | length }}人</h4></li>
                 {% if user.is_superuser or user.id == group.creater.id %}
-                    <li><a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-xs btn-success add_member_btn"><i class="fa fa-users"></i> 追加</a></li>
+                    <li><a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-xs btn-surm add_member_btn"><i class="fa fa-users"></i> 追加</a></li>
                 {% endif %}
                 </ul>
                 <ul class="join_users">
