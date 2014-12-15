@@ -1,4 +1,26 @@
+h3{
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
 .mygroups tr{
     font-size: 18px;
     margin-bottom: 10px;
+}
+.action_list{
+    padding-left: 0px;
+    list-style: none;
+}
+.action_detail{
+    padding-left: 0px;
+    margin-bottom: 20px;
+    list-style: none;
+}
+.action_kind{
+    font-size: 16px;
+    color: #3f61a9;
+/*     font-weight: 600; */
+}
+.acted{
+    color: gray;
+    padding-left: 10px;
 }

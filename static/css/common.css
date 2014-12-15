@@ -1,10 +1,18 @@
+.navbar-custom {
+/*     background:#709eff; */
+    background: #3f61a9;
+    border-bottom:none;
+}
+.navbar-custom .container a{
+    color: #fafcff;
+}
 .btn-surm{
-    background: #709eff;
-    border: #709eff;
+    background: #3f61a9;
+    border: #3f61a9;
     color: #ffffff;
 }
 .btn-surm:hover{
-    background: #3777ff;
-    border: #3777ff;
+    background: #4e79d4;
+    border: #4e79d4;
     color: #ffffff;
 }

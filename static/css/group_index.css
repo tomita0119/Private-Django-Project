@@ -1,9 +1,12 @@
 .group_info{
     margin-bottom: 10px;
 }
+.posted_resources{
+    padding-left: 20px;
+}
 .posted_resource{
     margin-bottom: 20px;
-    margin-left: -20px;
+/*     margin-left: -20px; */
 }
 .posted_resource_name{
     font-size: 20px;
@@ -38,17 +41,19 @@ ul.join_users li{
     margin-bottom: 5px;
 }
 .link_btn{
+/*
     border-style: none;
     background: none;
+*/
     font-size: 20px;
-    cursor: pointer;
+/*     cursor: pointer; */
     text-align: left;
 }
 .link_form{
     margin-bottom: 0px;
 }
 .link_btn:hover{
-    color: blue;
+/*     color: #3f61a9; */
 }
 .icon_button{
     border-style: none;
@@ -62,6 +67,9 @@ form.confirm{
 }
 .headding_3{
     font-weight: bold;
+    margin-top: 0px;
+}
+.headding_3_underline{
     margin-top: 0px;
 }
 h2{
@@ -84,8 +92,13 @@ i.fa-star{
     color: #fdffac;
 }
 .views{
+    padding: 2px 4px 2px 4px;
+    font-size: 14px;
+    font-weight: 400;
+/*
     background: #ffd0d0;
-    color: red;
+    color: #d9534f;
+*/
 }
 .posted_user{
     margin-top: 10px;

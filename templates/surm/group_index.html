@@ -37,7 +37,7 @@
                     {% for join_user in join_users %}
                         <li><span class="username">{{ join_user.username }}</span>
                             {% if join_user.id == group.creater.id %}
-                                <span class="label label-info">管理者</span>
+                                <span class="label label-danger">管理者</span>
                             {% endif %}
                         </li>
                     {% endfor %}
@@ -66,11 +66,12 @@
             </form>
             
             <h3 class="headding_3">投稿されたリソース一覧</h3>
+            <hr class="headding_3_underline" />
             {% if resources %}
                 <ul class="posted_resources">
                 {% for resource in resources %}
                     <li class="posted_resource">
-                        <button class="link_btn post_resource_btn" id="{{ resource.id }}" onclick="window.open('{{ resource.url }}')">{{ resource.name }}</button>
+                        <a class="link_btn post_resource_btn" id="{{ resource.id }}" href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>
                         {% if user.id == resource.creater.id %}
                         <button class="dlt_button icon_button" id="{{ resource.id }}"><i class="fa fa-times"></i></button>
                         <div class="dlt_confirm">
@@ -84,7 +85,7 @@
                         {% endif %}
                         <ul class="posted_resource_info">
                             <li> 
-                                <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>{{ resource.resourceuserfavorite_set.all.count }}　<span class="views">{% if resource.views >= 2 %}{{ resource.view }} Views{% else %}{{ resource.view }} View{% endif %}</span>
+                                <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>{{ resource.resourceuserfavorite_set.all.count }}　<span class="label label-danger views">{% if resource.view >= 2 %}{{ resource.view }} Views{% else %}{{ resource.view }} View{% endif %}</span>
                             </li>
                             {% if resource.memo %}
                             <li><span class="memo">{{ resource.memo }}</span></li>

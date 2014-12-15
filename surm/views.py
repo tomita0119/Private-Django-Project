@@ -51,7 +51,7 @@ def index(request):
     
     try:
         mygroups = Group.objects.filter(joingroup__user__exact=request.user)
-        my_actionhistories = ActionHistory.objects.filter(user=request.user)
+        my_actionhistories = ActionHistory.objects.filter(user=request.user).order_by('-acted')[:5]
         print mygroups
         print my_actionhistories
         context = {

@@ -38,20 +38,42 @@
         </div>
         <div class="col-sm-4">
             <h5>最近の活動</h5>
-            <table class="table">
-                <tr>
-                    <th>グループ</th>
-                    <th>活動日</th>
-                    <th>活動の種類</th>
-                </tr>
+            <ul class="action_list">
                 {% for my_actionhistory in my_actionhistories %}
-                <tr>
-                    <td>{{ my_actionhistory.group.name }}</td>
-                    <td>{{ my_actionhistory.acted }}</td>
-                    <td>{{ my_actionhistory.kind }}</td>
-                </tr>
+                <li>
+                    <ul class="action_detail">
+                        <li class="action_kind">
+                            {% if my_actionhistory.kind == 'group_create' %}
+                            新しいグループを作成しました
+                            {% endif %}
+                            {% if my_actionhistory.kind == 'group_join' %}
+                            グループに参加しました
+                            {% endif %}
+                            {% if my_actionhistory.kind == 'group_modify' %}
+                            グループを更新しました
+                            {% endif %}
+                            {% if my_actionhistory.kind == 'group_delete' %}
+                            グループを削除しました
+                            {% endif %}
+                            {% if my_actionhistory.kind == 'resource_post' %}
+                            新しいリソースを投稿しました
+                            {% endif %}
+                            {% if my_actionhistory.kind == 'resource_view' %}
+                            リソースを閲覧しました
+                            {% endif %}
+                            {% if my_actionhistory.kind == 'resource_favorite' %}
+                            リソースをお気に入りにしました
+                            {% endif %}
+                            {% if my_actionhistory.kind == 'resource_delete' %}
+                            リソースを削除しました
+                            {% endif %}
+                            
+                        </li>
+                        <li class="acted">{{ my_actionhistory.acted }} - {{ my_actionhistory.group.name }}</li>
+                    </ul>
+                </li>
                 {% endfor %}
-            </table>
+            </ul>
         </div>
     </div>
 {% endblock %}
