@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, Http404
-from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, CreateGroupForm, AddResourceForm, GroupSettingsForm
+from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, CreateGroupForm, AddResourceForm, GroupSettingsForm
 
 def index(request):
     
@@ -21,6 +21,10 @@ def index(request):
                 g.save()
                 jg = JoinGroup(user=request.user, group=g)
                 jg.save()
+                
+                new_actionhistory = ActionHistory(user=request.user, group=g, kind='group_create')
+                new_actionhistory.save()
+                
             else:
                 return HttpResponseRedirect('/surm/cre_group/')
         if 'dlt_group_id' in request.POST:
@@ -39,6 +43,9 @@ def index(request):
             dlt_joingroup.delete()
             
             group.delete()
+            
+            new_actionhistory = ActionHistory(user=request.user, group=group, kind='group_delete')
+            new_actionhistory.save()
             
             message = u'グループ ' +group_name+ u' を削除しました．'
     
@@ -93,6 +100,8 @@ def group_index(request, group_id):
             select_resource.view += 1
             select_resource.save()
             new_user_resource_view = ResourceUserView.objects.get_or_create(group=group, resource=select_resource, user=request.user)
+            new_actionhistory = ActionHistory(user=request.user, group=group, kind='resource_view', resource=select_resource)
+            new_actionhistory.save()
             
         elif 'url' in request.POST: # urlがrequest.POST内にあれば以下の処理
             form = AddResourceForm(request.POST)
@@ -108,6 +117,9 @@ def group_index(request, group_id):
                 except IndexError:
                     new_resource = Resource(name=title[0].decode('utf-8'), url=form.cleaned_data['url'], creater=request.user, group=group)
                 new_resource.save()
+                
+                new_actionhistory = ActionHistory(user=request.user, group=group, kind='resource_post', resource=new_resource)
+                new_actionhistory.save()
                 
                 # 入力されたタグをタグテーブルへ
                 registered_tags = re.findall(r'\[(.*?)\]', form.cleaned_data['memo'])
@@ -128,6 +140,9 @@ def group_index(request, group_id):
             new_join_user = JoinGroup(user=add_user, group=group)
             new_join_user.save()
             
+            new_actionhistory = ActionHistory(user=add_user, group=group, kind='group_join')
+            new_actionhistory.save()
+            
         elif 'favorite_resource_id' in request.POST:
             print 'favorite resource'
             form = AddResourceForm()
@@ -136,6 +151,8 @@ def group_index(request, group_id):
             print new_resource_user_favorite[1]
             if new_resource_user_favorite[1] == True:
                 response = json.dumps({'favorite_success': True})
+                new_actionhistory = ActionHistory(user=request.user, group=group, kind='resource_favorite', resource=selecct_resource)
+                new_actionhistory.save()
             else:
                 response = json.dumps({'favorite_success': False})
             return HttpResponse(response, mimetype='text/javascript')
@@ -145,6 +162,10 @@ def group_index(request, group_id):
             # 【メモ】リレーションを貼ってるレコードもDJangoが自動で削除してくれるっぽい
             resource = get_object_or_404(Resource, pk=request.POST['dlt_resource_id'])
             resource.delete()
+            
+            new_actionhistory = ActionHistory(user=request.user, group=group, kind='resource_delete', resource=resource)
+            new_actionhistory.save()
+            
             message = u'リソースを削除しました'
             
             form = AddResourceForm()
@@ -202,6 +223,7 @@ def group_settings(request, group_id):
                     group.explain = form.cleaned_data['explain']
                 
                 group.save()
+                new_actionhistory = ActionHistory(user=request.user, group=group, kind='group_modify')
     else:
         form = GroupSettingsForm()
     

@@ -54,23 +54,23 @@ class TagResource(models.Model):
     tag = models.ForeignKey(Tag)
 
 # ユーザの行動のログを記録(設計中)
-# class ActionHistory(models.Model):
-#     KIND_CHOICES = (
-#         ('group_create', 'Group Create'),
-#         ('group_join', 'Group Join'),
-#         ('group_modify', 'Group Modify'),
-#         ('group_delete', 'Group Delete'),
-#         ('resource_post', 'Resource Post'),
-#         ('resource_view', 'Resource View'),
-#         ('resource_favorite', 'Resource Favorite'),
-#         ('resource_delete', 'Resource Delete'),
-#     )
-#     
-#     user = models.ForeignKey(User)
-#     group = models.ForeignKey(Group)
-#     acted = models.DateTimeField('Acted', auto_now_add=True)
-#     kind = models.CharField('Kind', choices=KIND_CHOICES, max_length=20)
-#     resource = models.ForeignKey(Resource, null=True, blank=True)
+class ActionHistory(models.Model):
+    KIND_CHOICES = (
+        ('group_create', 'Group Create'),
+        ('group_join', 'Group Join'),
+        ('group_modify', 'Group Modify'),
+        ('group_delete', 'Group Delete'),
+        ('resource_post', 'Resource Post'),
+        ('resource_view', 'Resource View'),
+        ('resource_favorite', 'Resource Favorite'),
+        ('resource_delete', 'Resource Delete'),
+    )
+    
+    user = models.ForeignKey(User)
+    group = models.ForeignKey(Group)
+    acted = models.DateTimeField('Acted', auto_now_add=True)
+    kind = models.CharField('Kind', choices=KIND_CHOICES, max_length=20)
+    resource = models.ForeignKey(Resource, null=True, blank=True)
 
 # ------------ フォーム ------------ #
 
