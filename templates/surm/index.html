@@ -38,6 +38,20 @@
         </div>
         <div class="col-sm-4">
             <h5>最近の活動</h5>
+            <table class="table">
+                <tr>
+                    <th>グループ</th>
+                    <th>活動日</th>
+                    <th>活動の種類</th>
+                </tr>
+                {% for my_actionhistory in my_actionhistories %}
+                <tr>
+                    <td>{{ my_actionhistory.group.name }}</td>
+                    <td>{{ my_actionhistory.acted }}</td>
+                    <td>{{ my_actionhistory.kind }}</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 {% endblock %}

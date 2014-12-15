@@ -51,11 +51,14 @@ def index(request):
     
     try:
         mygroups = Group.objects.filter(joingroup__user__exact=request.user)
+        my_actionhistories = ActionHistory.objects.filter(user=request.user)
         print mygroups
+        print my_actionhistories
         context = {
             'title': 'index',
             'mygroups': mygroups,
-            'message': message
+            'my_actionhistories': my_actionhistories,
+            'message': message,
         }
     except:
         context = {

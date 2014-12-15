@@ -1,3 +1,11 @@
+.navbar-custom {
+    background:#709eff;
+    border-bottom:none;
+}
+.navbar-custom .container a{
+    color: #fafcff;
+}
+
 #footer{
     text-align: center;
 }
