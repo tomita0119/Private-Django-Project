@@ -83,7 +83,9 @@
                         </div>
                         {% endif %}
                         <ul class="posted_resource_info">
-                            <li> <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>{{ resource.resourceuserfavorite_set.all.count }}　<span class="views">{{ resource.view }} Views</span></li>
+                            <li> 
+                                <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>{{ resource.resourceuserfavorite_set.all.count }}　<span class="views">{% if resource.views >= 2 %}{{ resource.view }} Views{% else %}{{ resource.view }} View{% endif %}</span>
+                            </li>
                             {% if resource.memo %}
                             <li><span class="memo">{{ resource.memo }}</span></li>
                             {% endif %}

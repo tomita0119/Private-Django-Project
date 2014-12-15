@@ -62,6 +62,7 @@ class TagResource(models.Model):
 #         ('group_delete', 'Group Delete'),
 #         ('resource_post', 'Resource Post'),
 #         ('resource_view', 'Resource View'),
+#         ('resource_favorite', 'Resource Favorite'),
 #         ('resource_delete', 'Resource Delete'),
 #     )
 #     
@@ -70,7 +71,6 @@ class TagResource(models.Model):
 #     acted = models.DateTimeField('Acted', auto_now_add=True)
 #     kind = models.CharField('Kind', choices=KIND_CHOICES, max_length=20)
 #     resource = models.ForeignKey(Resource, null=True, blank=True)
-
 
 # ------------ フォーム ------------ #
 

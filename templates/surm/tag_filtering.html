@@ -2,8 +2,13 @@
 {% load bootstrap3 %}
 {% load static from staticfiles %}
 
+{% block additional_static %}
+<link rel="stylesheet" href="{% static 'css/tag_filtering.css' %}" />
+{% endblock %}
+
 {% block content %}
-<h3>{{ tag.tag }}</h3>
+<a href="{% url 'surm.views.group_index' group_id=group.id %}"><< 戻る</a>
+<h3 class="headding_3">「{{ tag.tag }}」の検索結果</h3>
 {% for tag_resource in tag_resources %}
 {{ tag_resource.resource.name }} <br />
 {% endfor %}
