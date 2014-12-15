@@ -57,6 +57,7 @@
         
         <div class="col-sm-7">
             <h3 class="headding_3 post_resource_headding">リソースの投稿</h3>
+            <hr class="headding_3_underline" />
             <p>URLを入力すればページタイトルは自動入力されます．</p>
             <p>[]で囲む事でタグを付ける事ができます．(例: [JavaScript][Python][チュートリアル])</p>
             <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
