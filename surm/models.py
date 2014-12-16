@@ -99,4 +99,4 @@ class GroupSettingsForm(forms.Form):
     explain = forms.CharField(required=False, max_length=100, widget=forms.Textarea, label='Explain (Optional)')
 
 class CommentForm(forms.Form):
-    comment = forms.CharField(max_length=100)
+    comment = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder':'Comment'}))

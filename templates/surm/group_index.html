@@ -13,7 +13,7 @@
 
 {% block content %}
     {% if message %}
-        <p>{{ message }}</p>
+        <p class="message">{{ message }}</p>
     {% endif %}
     <h2>{{ group.name }}</h2>
     {% if group.explain %}
@@ -104,23 +104,25 @@
                             </li>
                             <li class="posted_user">{{ resource.created }} - {{ resource.creater.username }}</li>
                         </ul>
-                        <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form add_comment_form">
-                            {% csrf_token %}
-                            {% bootstrap_form comment_form %}
-                            <input type="hidden" name="resource_id" value="{{ resource.id }}" />
-                            <input type="submit" class="btn btn-default comment_submit" value="Submit"/>
-                        </form>
-                        <p class="show_comment">コメントを表示する</p>
-                        <div class="comments">
-                            {% if resource.comment_set.all.count > 0 %}
-                            <ul>
-                            {% for resource_comment in resource.comment_set.all %}
-                                <li>{{ resource_comment.user.username }} : {{ resource_comment.comment }}</li>
-                            {% endfor %}
-                            </ul>
-                            {% else %}
-                            <p>コメントはありません</p>
-                            {% endif %}
+                        <div class="comments_area">
+                            <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form-inline add_comment_form">
+                                {% csrf_token %}
+                                {% bootstrap_form comment_form %}
+                                <input type="hidden" name="resource_id" value="{{ resource.id }}" />
+                                <input type="submit" class="btn btn-default comment_submit" value="Submit"/>
+                            </form>
+                                <p class="show_comment">コメントを表示する({{ resource.comment_set.all.count }})</p>
+                                <div class="comments">
+                                    {% if resource.comment_set.all.count > 0 %}
+                                    <ul>
+                                    {% for resource_comment in resource.comment_set.all|dictsortreversed:"commented" %}
+                                        <li>{{ forloop.revcounter }}　{{ resource_comment.user.username }} : {{ resource_comment.comment }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                    {% else %}
+                                    <p>コメントはありません</p>
+                                    {% endif %}
+                                </div>
                         </div>
                         <hr />
                     </li>

@@ -19,3 +19,8 @@
     border: #4e79d4;
     color: #ffffff;
 }
+.message{
+    margin-top: -5px;
+    text-align: center;
+    font-weight: bold;
+}

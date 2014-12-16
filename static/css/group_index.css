@@ -34,7 +34,7 @@ ul.join_users li{
     margin-bottom: 5px;
 }
 .posted_resource_info{
-/*     padding-left: 30px; */
+    margin-bottom: 20px;
 }
 .posted_resource_info li{
     font-size: 14px;
@@ -104,11 +104,13 @@ i.fa-star{
     margin-top: 10px;
 }
 .add_comment_form{
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .add_comment_form input{
-/*     width: 100px; */
     height: 30px;
+}
+.add_comment_form #id_comment{
+    width: 300px;
 }
 .comment_submit{
     padding-top: 4px;
@@ -116,7 +118,19 @@ i.fa-star{
 }
 .show_comment{
     cursor: pointer;
+    font-weight: bold;
 }
 .comments{
+    padding: 10px 0px 10px 0px;
     display: none;
+    font-size: 16px;
+    background: #dee4f3;
+    border-radius: 3px;
+}
+.comments ul li{
+    margin-bottom: 5px;
+}
+.comments_area{
+    margin-left: 18px;
+/*     background: #7996d5; */
 }

@@ -155,9 +155,10 @@ def group_index(request, group_id):
             new_resource_user_favorite = ResourceUserFavorite.objects.get_or_create(group=group, resource=select_resource, user=request.user)
             print new_resource_user_favorite[1]
             if new_resource_user_favorite[1] == True:
-                response = json.dumps({'favorite_success': True})
-                new_actionhistory = ActionHistory(user=request.user, group=group, kind='resource_favorite', resource=selecct_resource)
+                new_actionhistory = ActionHistory(user=request.user, group=group, kind='resource_favorite', resource=select_resource)
                 new_actionhistory.save()
+                print 'favorite'
+                response = json.dumps({'favorite_success': True})
             else:
                 response = json.dumps({'favorite_success': False})
             return HttpResponse(response, mimetype='text/javascript')
@@ -181,8 +182,10 @@ def group_index(request, group_id):
                 select_resource = get_object_or_404(Resource, pk=request.POST['resource_id'])
                 new_comment = Comment(user=request.user, group=group, resource=select_resource, comment=comment_form.cleaned_data['comment'])
                 new_comment.save()
-            
+                message = select_resource.name + u'にコメントを書き込みました'
+                comment_form_flg = True
             form = AddResourceForm()
+            
         else: # それ以外(多分有り得ない)
             form = AddResourceForm()
     
@@ -194,11 +197,11 @@ def group_index(request, group_id):
     
     resources = Resource.objects.filter(group=group).order_by('-created')
     read_users = ResourceUserView.objects.filter(group=group)
-    favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:10]
-    my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')
+    favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:5]
+    my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')[:5]
     group_tags = Tag.objects.filter(group=group).order_by('tag')
     tag_resources = TagResource.objects.filter(group=group)
-    comments = Comment.objects.filter(group=group)
+    comments = Comment.objects.filter(group=group).order_by('-commented')
     
     context = {
         'title': group.name,
