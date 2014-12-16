@@ -3,6 +3,10 @@ $(document).ready(function(){
     $('.fav_button').click(function(){ FavoriteResource(this) });
     $('.dlt_button').click(function(){ ShowConfirm(this) });
     
+    $('.show_comment').click(function(){
+        $(this).next().toggle();
+    });
+    
     function clickbtn(button){
         console.log(button.id);
         console.log($('form.resource_add_form').attr('action'));

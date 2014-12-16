@@ -6,6 +6,9 @@
 .navbar-custom .container a{
     color: #fafcff;
 }
+.navbar-custom .container a:hover{
+    background: #4e79d4;
+}
 .btn-surm{
     background: #3f61a9;
     border: #3f61a9;

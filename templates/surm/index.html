@@ -6,7 +6,7 @@
 <link href="{% static 'css/index.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ user.username }} - SURM{% endblock %}
 
 {% block content %}
     {% if message %}

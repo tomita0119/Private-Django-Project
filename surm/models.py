@@ -53,7 +53,7 @@ class TagResource(models.Model):
     resource = models.ForeignKey(Resource)
     tag = models.ForeignKey(Tag)
 
-# ユーザの行動のログを記録(設計中)
+# ユーザの行動のログを記録
 class ActionHistory(models.Model):
     KIND_CHOICES = (
         ('group_create', 'Group Create'),
@@ -72,6 +72,14 @@ class ActionHistory(models.Model):
     kind = models.CharField('Kind', choices=KIND_CHOICES, max_length=20)
     resource = models.ForeignKey(Resource, null=True, blank=True)
 
+# リソースに対するコメント
+class Comment(models.Model):
+    user = models.ForeignKey(User)
+    group = models.ForeignKey(Group)
+    resource = models.ForeignKey(Resource)
+    comment = models.CharField('Comment', max_length=100)
+    commented = models.DateTimeField('Commented', auto_now_add=True)
+
 # ------------ フォーム ------------ #
 
 # グループ追加のフォーム
@@ -89,3 +97,6 @@ class AddResourceForm(forms.Form):
 class GroupSettingsForm(forms.Form):
     group_name = forms.CharField(required=False, max_length=100, label='Group Name (Optional)')
     explain = forms.CharField(required=False, max_length=100, widget=forms.Textarea, label='Explain (Optional)')
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(max_length=100)

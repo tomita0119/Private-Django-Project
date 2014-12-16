@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, Http404
-from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, CreateGroupForm, AddResourceForm, GroupSettingsForm
+from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, Comment, CreateGroupForm, AddResourceForm, GroupSettingsForm, CommentForm
 
 def index(request):
     
@@ -82,6 +82,8 @@ def group_index(request, group_id):
     
     group = get_object_or_404(Group, pk=group_id)
     join_users = User.objects.filter(joingroup__group__exact=group)
+    
+    comment_form_flg = False
     
     # グループに参加していないユーザからのアクセスにはForbiddenを返す
     member_flg = False
@@ -172,12 +174,23 @@ def group_index(request, group_id):
             message = u'リソースを削除しました'
             
             form = AddResourceForm()
+        
+        elif 'comment' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid(): # バリデート
+                select_resource = get_object_or_404(Resource, pk=request.POST['resource_id'])
+                new_comment = Comment(user=request.user, group=group, resource=select_resource, comment=comment_form.cleaned_data['comment'])
+                new_comment.save()
             
+            form = AddResourceForm()
         else: # それ以外(多分有り得ない)
             form = AddResourceForm()
     
     else: # POST値がない，普通のアクセスの場合
         form = AddResourceForm()
+    
+    if comment_form_flg == False:
+        comment_form = CommentForm()
     
     resources = Resource.objects.filter(group=group).order_by('-created')
     read_users = ResourceUserView.objects.filter(group=group)
@@ -185,6 +198,7 @@ def group_index(request, group_id):
     my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')
     group_tags = Tag.objects.filter(group=group).order_by('tag')
     tag_resources = TagResource.objects.filter(group=group)
+    comments = Comment.objects.filter(group=group)
     
     context = {
         'title': group.name,
@@ -198,6 +212,8 @@ def group_index(request, group_id):
         'my_favorite_resources': my_favorite_resources,
         'group_tags': group_tags,
         'tag_resources': tag_resources,
+        'comment_form': comment_form,
+        'comments': comments,
     }
     
     return render(request, 'surm/group_index.html', context)

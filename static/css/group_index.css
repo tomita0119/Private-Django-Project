@@ -103,3 +103,20 @@ i.fa-star{
 .posted_user{
     margin-top: 10px;
 }
+.add_comment_form{
+    margin-bottom: 20px;
+}
+.add_comment_form input{
+/*     width: 100px; */
+    height: 30px;
+}
+.comment_submit{
+    padding-top: 4px;
+/*     padding-bottom: 5px; */
+}
+.show_comment{
+    cursor: pointer;
+}
+.comments{
+    display: none;
+}
