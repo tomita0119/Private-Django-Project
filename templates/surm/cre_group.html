@@ -5,6 +5,10 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'surm.views.index' %}">Index</a></li>
+        <li class="active">Create Group</li>
+    </ol>
     <form action="{% url 'surm.views.index' %}" method="post" class="form">
         {% csrf_token %}
         {% bootstrap_form form %}

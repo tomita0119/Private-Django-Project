@@ -226,7 +226,7 @@ def add_group_member(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     all_users = User.objects.exclude(joingroup__group__exact=group)
     context = {
-        'title': 'メンバー追加',
+        'title': 'Add Member',
         'group': group,
         'all_users': all_users,
     }
@@ -263,6 +263,7 @@ def tag_filtering(request, group_id, tag_id):
     tag_resources = TagResource.objects.filter(group=group, tag=tag)
     
     context = {
+        'title': u'About 「' +tag.tag+ u'」',
         'group': group,
         'tag': tag,
         'tag_resources': tag_resources,

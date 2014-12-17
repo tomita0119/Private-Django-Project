@@ -15,6 +15,10 @@
     {% if message %}
         <p class="message">{{ message }}</p>
     {% endif %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'surm.views.index' %}">Index</a></li>
+        <li class="active">{{ group.name }}</li>
+    </ol>
     <h2>{{ group.name }}</h2>
     {% if group.explain %}
     <p>{{ group.explain }}</p>
@@ -134,7 +138,7 @@
         </div>
         <div class="col-sm-3">
             <h4 class="my_favorite_headding">自分のお気に入り</h4>
-            <table class="table">
+            <table class="table my_favorite">
                 <tr>
                     <th>リソース名</th>
                     <th>タグ</th>

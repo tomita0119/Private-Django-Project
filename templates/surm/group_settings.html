@@ -11,6 +11,11 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'surm.views.index' %}">Index</a></li>
+        <li><a href="{% url 'surm.views.group_index' group_id=group.id %}">{{ group.name }}</a></li>
+        <li class="active">Group Settings</li>
+    </ol>
     <h4>設定</h4>
     <form action="{% url 'surm.views.group_settings' group_id=group.id%}" method="post" class="form">
         {% csrf_token %}

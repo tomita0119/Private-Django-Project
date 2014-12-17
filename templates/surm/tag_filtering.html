@@ -6,10 +6,17 @@
 <link rel="stylesheet" href="{% static 'css/tag_filtering.css' %}" />
 {% endblock %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
-<a href="{% url 'surm.views.group_index' group_id=group.id %}"><< 戻る</a>
-<h3 class="headding_3">「{{ tag.tag }}」の検索結果</h3>
-{% for tag_resource in tag_resources %}
-{{ tag_resource.resource.name }} <br />
-{% endfor %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'surm.views.index' %}">Index</a></li>
+        <li><a href="{% url 'surm.views.group_index' group_id=group.id %}">{{ group.name }}</a></li>
+        <li class="active">About 「{{ tag.tag }}」</li>
+    </ol>
+
+    <h3 class="headding_3">「{{ tag.tag }}」の検索結果</h3>
+    {% for tag_resource in tag_resources %}
+    {{ tag_resource.resource.name }} <br />
+    {% endfor %}
 {% endblock %}
