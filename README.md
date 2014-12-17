@@ -13,7 +13,8 @@ Share Useful Resources with Members の略
 
 ### テンプレート継承メモ ###
 
-ややこしくなってきたのでテンプレートの継承はメモしておく  
+ややこしくなってきたのでテンプレートの継承はメモしておく
+
 * 一番大本のベースとなるテンプレート : base.html
     - navbarとかfooterとか全テンプレートで使うもの．基本はこれを継承している．
     - 基本はheaderblockとcontentblockを書き換え
