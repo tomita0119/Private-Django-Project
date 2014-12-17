@@ -137,23 +137,26 @@
             {% endif %}
         </div>
         <div class="col-sm-3">
-            <h4 class="my_favorite_headding">自分のお気に入り</h4>
-            <table class="table my_favorite">
-                <tr>
-                    <th>リソース名</th>
-                    <th>タグ</th>
-                </tr>
-                {% for my_favorite_resource in my_favorite_resources %}
-                <tr>
-                    <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
-                    <td>
-                        {% for tag in my_favorite_resource.resource.tagresource_set.all %}
-                            {{ tag.tag.tag }},
-                        {% endfor %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div class="my_favorite">
+                <h4 class="my_favorite_headding">自分のお気に入り</h4>
+                <table class="table my_favorite_list">
+                    <tr>
+                        <th>リソース名</th>
+                        <th>タグ</th>
+                    </tr>
+                    {% for my_favorite_resource in my_favorite_resources %}
+                    <tr>
+                        <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
+                        <td>
+                            {% for tag in my_favorite_resource.resource.tagresource_set.all %}
+                                {{ tag.tag.tag }},
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a href="#" class="btn btn-default btn-xs read_more_btn">もっと見る</a>
+            </div>
             
             <div class="favorite_info">
                 <h4>お気に入り履歴</h4>

@@ -250,7 +250,7 @@ def group_settings(request, group_id):
         form = GroupSettingsForm()
     
     context = {
-        'title': 'グループ設定',
+        'title': 'Group Settings',
         'group': group,
         'form': form
     }
