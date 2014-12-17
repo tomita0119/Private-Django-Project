@@ -9,9 +9,6 @@
 <script src="{% static 'js/group_index.js' %}"></script>
 {% endblock %}
 
-{% block additional_static_from_index %}
-{% endblock %}
-
 {% block title %}{{ title }}{% endblock %}
 
 {% block header %}
@@ -26,7 +23,7 @@
 
 {% block content %}
     {% block top-content %}
-    <h2>{{ group.name }}</h2>
+    <h2><a href="{% url 'surm.views.group_index' group_id=group.id %}" class="group_name">{{ group.name }}</a></h2>
     {% if group.explain %}
     <p>{{ group.explain }}</p>
     {% endif %}
@@ -41,7 +38,7 @@
             </div>
             <div class="group_info">
                 <ul class="list-inline">
-                    <li><h4>参加者: {{ join_users | length }}人</h4></li>
+                    <li><h4>メンバー: {{ join_users | length }}人</h4></li>
                 {% if user.is_superuser or user.id == group.creater.id %}
                     <li><a href="{% url 'surm.views.add_group_member' group_id=group.id %}" class="btn btn-xs btn-surm add_member_btn"><i class="fa fa-users"></i> 追加</a></li>
                 {% endif %}
@@ -73,7 +70,7 @@
             {% block center-content %}
             <h3 class="headding_3 post_resource_headding">リソースの投稿</h3>
             <hr class="headding_3_underline" />
-            <p>URLを入力すればページタイトルは自動入力されます．</p>
+            <p>URLを入力すればリソースタイトルは自動入力されます．</p>
             <p>[]で囲む事でタグを付ける事ができます．(例: [JavaScript][Python][チュートリアル])</p>
             <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
                 {% csrf_token %}
@@ -109,12 +106,12 @@
                             <li>
                                 <i class="fa fa-tags"></i>
                                 {% for tag in resource.tagresource_set.all %}
-                                    {{ tag.tag.tag }},
+                                    {{ tag.tag.tag }}{% if forloop.last == False %},{% endif %}
                                 {% endfor %}
                             </li>
                             <li><i class="fa fa-eye"></i>
                                 {% for read_user in resource.resourceuserview_set.all %}
-                                    {{ read_user.user.username }},
+                                    {{ read_user.user.username }}{% if forloop.last == False %},{% endif %}
                                 {% endfor %}
                             </li>
                             <li class="posted_user">{{ resource.created }} - {{ resource.creater.username }}</li>
@@ -163,13 +160,13 @@
                         <td><a href="{{ my_favorite_resource.resource.url }}" class="post_resource_btn" id="{{ my_favorite_resource.resource.id }}" target="_blank">{{ my_favorite_resource.resource.name }}</a></td>
                         <td>
                             {% for tag in my_favorite_resource.resource.tagresource_set.all %}
-                                {{ tag.tag.tag }},
+                                {{ tag.tag.tag }}{% if forloop.last == False %},{% endif %}
                             {% endfor %}
                         </td>
                     </tr>
                     {% endfor %}
                 </table>
-                <a href="#" class="btn btn-default btn-xs read_more_btn">もっと見る</a>
+                <a href="{% url 'surm.views.my_favorite' group_id=group.id %}" class="btn btn-default btn-xs read_more_btn">もっと見る</a>
             </div>
             
             <div class="favorite_info">

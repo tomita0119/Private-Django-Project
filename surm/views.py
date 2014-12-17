@@ -279,3 +279,33 @@ def tag_filtering(request, group_id, tag_id):
     }
     
     return render(request, 'surm/tag_filtering.html', context)
+
+
+def my_favorite(request, group_id):
+    
+    message = None
+    
+    # left-content, right-contentで使うデータの取得
+    group = get_object_or_404(Group, pk=group_id)
+    join_users = User.objects.filter(joingroup__group__exact=group)
+    group_tags = Tag.objects.filter(group=group).order_by('tag')
+    my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')
+    favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:5]
+    
+    if request.method == 'POST': # まずPOSTされたか判定
+        if 'favorite_resource_id' in request.POST:
+            select_resource = get_object_or_404(Resource, pk=request.POST['favorite_resource_id'])
+            del_resource = ResourceUserFavorite.objects.filter(group=group, resource=select_resource, user=request.user)
+            del_resource.delete()
+            message = select_resource.name + u' を削除しました'
+    
+    context = {
+        'title': 'MyFavorite',
+        'group': group,
+        'join_users': join_users,
+        'group_tags': group_tags,
+        'my_favorite_resources': my_favorite_resources,
+        'favorite_resources_history': favorite_resources_history,
+        'message': message,
+    }
+    return render(request, 'surm/my_favorite.html', context)

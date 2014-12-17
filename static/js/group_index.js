@@ -10,8 +10,9 @@ $(document).ready(function(){
     function clickbtn(button){
         console.log(button.id);
         console.log($('form.resource_add_form').attr('action'));
+        console.log($('.group_name').attr('href'));
         $.ajax({
-            'url':$('form.resource_add_form').attr('action'),
+            'url':$('.group_name').attr('href'),
             'type':'POST',
             'data':{
                 'ajax':button.id,
