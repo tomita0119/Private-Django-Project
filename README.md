@@ -1,6 +1,6 @@
 # SURM #
 
-Share Useful Resources for Members の略
+Share Useful Resources with Members の略
 
 ### インストールしたpipモジュール ###
 
