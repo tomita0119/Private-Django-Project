@@ -9,9 +9,12 @@
 <script src="{% static 'js/group_index.js' %}"></script>
 {% endblock %}
 
+{% block additional_static_from_index %}
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
-{% block content %}
+{% block header %}
     {% if message %}
         <p class="message">{{ message }}</p>
     {% endif %}
@@ -19,12 +22,18 @@
         <li><a href="{% url 'surm.views.index' %}">Index</a></li>
         <li class="active">{{ group.name }}</li>
     </ol>
+{% endblock %}
+
+{% block content %}
+    {% block top-content %}
     <h2>{{ group.name }}</h2>
     {% if group.explain %}
     <p>{{ group.explain }}</p>
     {% endif %}
+    {% endblock %}
     <div class="row">
         <div class="col-sm-2">
+            {% block left-content %}
             <div class="group_info">
                 {% if user.id == group.creater.id %}
                 <a href="{% url 'surm.views.group_settings' group_id=group.id %}" class="btn btn-xs btn-surm"><i class="fa fa-cog"></i> グループの設定</a>
@@ -56,10 +65,12 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% endblock %}
             
         </div>
         
         <div class="col-sm-7">
+            {% block center-content %}
             <h3 class="headding_3 post_resource_headding">リソースの投稿</h3>
             <hr class="headding_3_underline" />
             <p>URLを入力すればページタイトルは自動入力されます．</p>
@@ -135,8 +146,11 @@
             {% else %}
                 <p>投稿されたリソースはありません</p>
             {% endif %}
+            {% endblock %}
         </div>
+        
         <div class="col-sm-3">
+            {% block right-content %}
             <div class="my_favorite">
                 <h4 class="my_favorite_headding">自分のお気に入り</h4>
                 <table class="table my_favorite_list">
@@ -173,7 +187,7 @@
                     {% endfor %}
                 </table>
             </div>
-            
+            {% endblock %}
         </div>
     </div>
 {% endblock %}

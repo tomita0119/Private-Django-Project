@@ -1,20 +1,22 @@
-{% extends "base.html" %}
+{% extends "surm/group_index.html" %}
 {% load bootstrap3 %}
 {% load static from staticfiles %}
 
-{% block additional_static %}
+{% block additional_static_from_index %}
 <link rel="stylesheet" href="{% static 'css/tag_filtering.css' %}" />
 {% endblock %}
 
 {% block title %}{{ title }}{% endblock %}
 
-{% block content %}
+{% block header %}
     <ol class="breadcrumb">
         <li><a href="{% url 'surm.views.index' %}">Index</a></li>
         <li><a href="{% url 'surm.views.group_index' group_id=group.id %}">{{ group.name }}</a></li>
         <li class="active">About 「{{ tag.tag }}」</li>
     </ol>
+{% endblock %}
 
+{% block center-content %}
     <h3 class="headding_3">「{{ tag.tag }}」の検索結果</h3>
     {% for tag_resource in tag_resources %}
     {{ tag_resource.resource.name }} <br />

@@ -259,12 +259,21 @@ def group_settings(request, group_id):
 
 def tag_filtering(request, group_id, tag_id):
     group = get_object_or_404(Group, pk=group_id)
+    join_users = User.objects.filter(joingroup__group__exact=group)
+    group_tags = Tag.objects.filter(group=group).order_by('tag')
+    my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')[:5]
+    favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:5]
+    
     tag = get_object_or_404(Tag, pk=tag_id)
     tag_resources = TagResource.objects.filter(group=group, tag=tag)
     
     context = {
         'title': u'About 「' +tag.tag+ u'」',
         'group': group,
+        'join_users': join_users,
+        'group_tags': group_tags,
+        'my_favorite_resources': my_favorite_resources,
+        'favorite_resources_history': favorite_resources_history,
         'tag': tag,
         'tag_resources': tag_resources,
     }

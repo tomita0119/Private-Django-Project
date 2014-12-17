@@ -8,12 +8,15 @@
 
 {% block title %}{{ title }}{% endblock %}
 
-{% block content %}
+{% block header %}
     <ol class="breadcrumb">
         <li><a href="{% url 'surm.views.index' %}">Index</a></li>
         <li><a href="{% url 'surm.views.group_index' group_id=group.id %}">{{ group.name }}</a></li>
         <li class="active">Add Member</li>
     </ol>
+{% endblock %}
+
+{% block content %}
 {% if user.is_superuser %}
     <h4>参加していないユーザ</h4>
     {% if all_users %}

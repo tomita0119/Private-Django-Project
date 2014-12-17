@@ -8,13 +8,16 @@
 
 {% block title %}{{ user.username }} - SURM{% endblock %}
 
-{% block content %}
+{% block header %}
     {% if message %}
     <p class="message">{{ message }}</p>
     {% endif %}
     <ol class="breadcrumb">
         <li class="active">Index</li>
     </ol>
+{% endblock %}
+
+{% block content %}
     <div class="row">
         <div class="col-sm-8">
             <h3>参加しているグループ</h3>
