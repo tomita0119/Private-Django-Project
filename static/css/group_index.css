@@ -46,13 +46,6 @@ ul.join_users li{
 form.confirm{
     margin-bottom: 3px;
 }
-.headding_3{
-    font-weight: 500;
-    margin-top: 0px;
-}
-.headding_3_underline{
-    margin-top: 0px;
-}
 .list-inline{
     margin-bottom: 0px;
 }
@@ -110,4 +103,20 @@ form.confirm{
 .comment_pertition{
     width: 90%;
     margin: 3px 0px 3px 0px;
+}
+.recent_comments_resources{
+    padding-left: 5px;
+}
+.recent_comments_resource_commented{
+    padding-left: 10px;
+}
+.recent_comments_resource_commented li{
+    font-size: 12px;
+    color: gray;
+}
+.recent_comments_resource{
+    margin-bottom: 10px;
+}
+.registered_tags ul{
+    margin-left: -20px;
 }

@@ -5,6 +5,9 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block header %}
+    {% if message %}
+    <p class="message">{{ message }}</p>
+    {% endif %}
     <ol class="breadcrumb">
         <li><a href="{% url 'surm.views.index' %}">{{ user.username }} - SURM</a></li>
         <li class="active">{{ title }}</li>
@@ -12,9 +15,4 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{% url 'surm.views.index' %}" method="post" class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <button type="submit" class="btn btn-default">作成する</button>
-    </form>
 {% endblock %}

@@ -12,9 +12,9 @@
 
 {% block header %}
     <ol class="breadcrumb">
-        <li><a href="{% url 'surm.views.index' %}">Index</a></li>
+        <li><a href="{% url 'surm.views.index' %}">{{ user.username }} - SURM</a></li>
         <li><a href="{% url 'surm.views.group_index' group_id=group.id %}">{{ group.name }}</a></li>
-        <li class="active">Group Settings</li>
+        <li class="active">{{ title }}</li>
     </ol>
 {% endblock %}
 

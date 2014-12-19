@@ -205,6 +205,8 @@ def group_index(request, group_id):
     
     join_users_count_half = join_users.count() / 2
     
+    recent_comments = comments[:5]
+    
     context = {
         'title': group.name,
         'message': message,
@@ -220,6 +222,7 @@ def group_index(request, group_id):
         'comment_form': comment_form,
         'comments': comments,
         'join_users_count_half': join_users_count_half,
+        'recent_comments': recent_comments,
     }
     
     return render(request, 'surm/group_index.html', context)

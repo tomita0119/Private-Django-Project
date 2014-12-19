@@ -20,6 +20,15 @@
     color: #ffffff;
 }
 
+.left-content, .right-content{
+    font-size: 14px;
+}
+.left-content div{
+    margin-bottom: 30px;
+}
+.right-content div{
+    margin-bottom: 30px;
+}
 ul{
     list-style: none;
 }
@@ -37,7 +46,16 @@ ul{
 h2{
     margin-top: 0px;
 }
+.headding_3{
+    font-weight: 600;
+    margin-top: 0px;
+}
+.headding_3_underline{
+    margin-top: 0px;
+}
 h4{
+    font-size: 16px;
+    font-weight: 600;
     margin-top: 0px;
 }
 i.fa-star{

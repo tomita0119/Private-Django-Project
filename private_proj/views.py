@@ -16,3 +16,10 @@ def index(request):
 # しようとさせているので無理矢理surmのindexにリダイレクトさせる．
 def profile(request):
     return HttpResponseRedirect('/surm/')
+
+
+def account_info(request, user_id):
+    context = {
+        'title': request.user.username + u'さんのマイページ'
+    }
+    return render(request, 'private_proj/account_info.html', context)

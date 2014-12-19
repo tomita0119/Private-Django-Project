@@ -16,8 +16,8 @@
         <p class="message">{{ message }}</p>
     {% endif %}
     <ol class="breadcrumb">
-        <li><a href="{% url 'surm.views.index' %}">Index</a></li>
-        <li class="active">{{ group.name }}</li>
+        <li><a href="{% url 'surm.views.index' %}">{{ user.username }} - SURM</a></li>
+        <li class="active">{{ title }}</li>
     </ol>
 {% endblock %}
 
@@ -29,7 +29,7 @@
     {% endif %}
     {% endblock %}
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2 left-content">
             {% block left-content %}
             <div class="group_info">
                 {% if user.id == group.creater.id %}
@@ -66,7 +66,7 @@
             
         </div>
         
-        <div class="col-sm-7">
+        <div class="col-sm-7 center-content">
             {% block center-content %}
             {% block except-resource-list-content %}
             <h3 class="headding_3 post_resource_headding">リソースの投稿</h3>
@@ -86,7 +86,7 @@
             {% if resources %}
                 <ul class="posted_resources">
                 {% for resource in resources %}
-                    <li class="posted_resource">
+                    <li class="posted_resource" id="resource{{ resource.id }}">
                         <a class="link_btn post_resource_btn" id="{{ resource.id }}" href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>
                         {% if user.id == resource.creater.id %}
                         <button class="dlt_button icon_button" id="{{ resource.id }}"><i class="fa fa-times"></i></button>
@@ -109,7 +109,7 @@
                             <li>
                                 <i class="fa fa-tags"></i>
                                 {% for tag in resource.tagresource_set.all %}
-                                    {{ tag.tag.tag }}{% if forloop.last == False %},{% endif %}
+                                    <span class="tags">{{ tag.tag.tag }}{% if forloop.last == False %} {% endif %}</span>
                                 {% endfor %}
                             </li>
                             <li><i class="fa fa-eye"></i>
@@ -151,7 +151,7 @@
             {% endblock %}
         </div>
         
-        <div class="col-sm-3">
+        <div class="col-sm-3 right-content">
             {% block right-content %}
             <div class="my_favorite">
                 <h4 class="my_favorite_headding">自分のお気に入り</h4>
@@ -175,7 +175,7 @@
             </div>
             
             <div class="favorite_info">
-                <h4>お気に入りが多い</h4>
+                <h4>お気に入りが多いリソース</h4>
                 <table class="table">
                     <tr>
                         <th>リソース</th>
@@ -190,6 +190,20 @@
                     {% endif %}
                     {% endfor %}
                 </table>
+            </div>
+            
+            <div class="recent_comments">
+                <h4>最近コメントされたリソース</h4>
+                <ul class="recent_comments_resources">
+                    {% for recent_comment in recent_comments %}
+                    <li class="recent_comments_resource">
+                        <a href="#resource{{ recent_comment.resource.id }}">{{ recent_comment.resource.name }}</a>
+                        <ul class="recent_comments_resource_commented">
+                            <li>{{ recent_comment.commented }}</li>
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
             {% endblock %}
         </div>

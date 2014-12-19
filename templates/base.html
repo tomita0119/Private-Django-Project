@@ -36,7 +36,7 @@
                 {% block nav_user %}
                     {% if user.is_authenticated %}
                         <ul class="nav navbar-nav navbar-right">
-                            <li id="nav-username"><a href="#">
+                            <li id="nav-username"><a href="{% url 'private_proj.views.account_info' user_id=user.id %}">
                                 <i class="fa fa-user"></i> {{ user.get_username }}</a>
                             </li>
                             <li>
