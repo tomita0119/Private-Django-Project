@@ -6,7 +6,7 @@
 }
 .posted_resource{
     margin-bottom: 20px;
-/*     margin-left: -20px; */
+    margin-left: -20px;
 }
 .posted_resource_name{
     font-size: 20px;
@@ -14,12 +14,11 @@
 .form{
     margin-bottom: 50px;
 }
-ul{
-    list-style: none;
-    margin-left: -20px;
-}
 .group_info{
     margin-bottom: 20px;
+}
+.join_users{
+    margin-left: -20px;
 }
 ul.join_users li span.username{
     font-size: 16px;
@@ -35,32 +34,14 @@ ul.join_users li{
 }
 .posted_resource_info{
     margin-bottom: 20px;
+    margin-left: -20px;
 }
 .posted_resource_info li{
     font-size: 14px;
     margin-bottom: 5px;
 }
-.link_btn{
-/*
-    border-style: none;
-    background: none;
-*/
-    font-size: 20px;
-/*     cursor: pointer; */
-    text-align: left;
-}
 .link_form{
     margin-bottom: 0px;
-}
-.link_btn:hover{
-/*     color: #3f61a9; */
-}
-.icon_button{
-    border-style: none;
-    background: none;
-}
-.dlt_confirm{
-    display: none;
 }
 form.confirm{
     margin-bottom: 3px;
@@ -70,12 +51,6 @@ form.confirm{
     margin-top: 0px;
 }
 .headding_3_underline{
-    margin-top: 0px;
-}
-h2{
-    margin-top: 0px;
-}
-h4{
     margin-top: 0px;
 }
 .list-inline{
@@ -88,17 +63,10 @@ h4{
     font-size: 16px;
     color: grey;
 }
-i.fa-star{
-    color: #fdffac;
-}
 .views{
     padding: 2px 4px 2px 4px;
     font-size: 14px;
     font-weight: 400;
-/*
-    background: #ffd0d0;
-    color: #d9534f;
-*/
 }
 .posted_user{
     margin-top: 10px;
@@ -132,7 +100,6 @@ i.fa-star{
 }
 .comments_area{
     margin-left: 18px;
-/*     background: #7996d5; */
 }
 .my_favorite{
     margin-bottom: 20px;
@@ -140,5 +107,7 @@ i.fa-star{
 .my_favorite_list{
     margin-bottom: 5px;
 }
-.read_more_btn{
+.comment_pertition{
+    width: 90%;
+    margin: 3px 0px 3px 0px;
 }

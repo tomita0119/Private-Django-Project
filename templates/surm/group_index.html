@@ -129,6 +129,7 @@
                                     <ul>
                                     {% for resource_comment in resource.comment_set.all|dictsortreversed:"commented" %}
                                         <li>{{ forloop.revcounter }}　{{ resource_comment.user.username }} : {{ resource_comment.comment }}</li>
+                                        <li><hr class="comment_pertition" /></li>
                                     {% endfor %}
                                     </ul>
                                     {% else %}
@@ -170,17 +171,19 @@
             </div>
             
             <div class="favorite_info">
-                <h4>お気に入り履歴</h4>
+                <h4>お気に入りが多い</h4>
                 <table class="table">
                     <tr>
-                        <th></th>
-                        <th>リソース名</th>
+                        <th>リソース</th>
+                        <th><i class="fa fa-star"></i></th>
                     </tr>
-                    {% for favorite_resource in favorite_resources_history %}
+                    {% for resource in resources %}
+                    {% if resource.resourceuserfavorite_set.all.count > join_users_count_half %}
                     <tr>
-                        <td>{{ favorite_resource.user.username }}</td>
-                        <td><a href="{{ favorite_resource.resource.url }}" class="post_resource_btn" id="{{ favorite_resource.resource.id }}" target="_blank">{{ favorite_resource.resource.name }}</a></td>
+                        <td><a href="{{ resource.url }}" class="post_resource_btn" id="{{ resource.id }}" target="_blank">{{ resource.name }}</a></td>
+                        <td>{{ resource.resourceuserfavorite_set.all.count }}</td>
                     </tr>
+                    {% endif %}
                     {% endfor %}
                 </table>
             </div>

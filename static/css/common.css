@@ -20,6 +20,31 @@
     color: #ffffff;
 }
 
+ul{
+    list-style: none;
+}
+.link_btn{
+    font-size: 20px;
+    text-align: left;
+}
+.icon_button{
+    border-style: none;
+    background: none;
+}
+.dlt_confirm{
+    display: none;
+}
+h2{
+    margin-top: 0px;
+}
+h4{
+    margin-top: 0px;
+}
+i.fa-star{
+    color: #fdffac;
+}
+
+
 .message{
     margin-top: -5px;
     text-align: center;

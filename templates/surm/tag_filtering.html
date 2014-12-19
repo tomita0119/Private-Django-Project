@@ -18,7 +18,36 @@
 
 {% block center-content %}
     <h3 class="headding_3">「{{ tag.tag }}」の検索結果</h3>
-    {% for tag_resource in tag_resources %}
-    {{ tag_resource.resource.name }} <br />
-    {% endfor %}
+    <hr class="headding_3_underline" />
+    {% if tag_resources %}
+        <ul class="posted_tag_resources">
+            {% for tag_resource in tag_resources %}
+            <li class="posted_resource">
+                <a href="{{ tag_resource.resource.url }}" class="link_btn post_resource_btn" id="{{ tag_resource.resource.id }}" target="_blank">{{ tag_resource.resource.name }}</a>
+                {%if user.id == tag_resource.resource.creater.id %}
+                <button class="dlt_button icon_button" id="{{ tag_resource.resource.id }}"><i class="fa fa-times"></i></button>
+                <div class="dlt_confirm">
+                    <form action="{% url 'surm.views.tag_filtering' group_id=group.id tag_id=tag_resource.id %}" method="post" class="from confirm">
+                        {% csrf_token %}
+                        本当に削除してもよろしいですか？
+                        <input type="hidden" name="dlt_resource_id" value="{{ tag_resource.resorce.id }}" />
+                        <input type="submit" class="btn btn-xs btn-danger" value="はい" />
+                    </form>
+                </div>
+                {% endif %}
+                <ul class="posted_resource_info">
+                    <li>
+                        <button class="fav_button icon_button" id="{{ tag_resource.resource.id }}"><i class="fa fa-star"></i></button>{{ tag_resource.resource.resourceuserfavorite_set.all.count }}　<span class="label label-danger views">{% if tag_resource.resource.views >= 2 %}{{ tag_resource.resource.views }} Views {% else %}{{ tag_resource.resource.views }} Views{% endif %}</span>
+                    </li>
+                    {% if tag_resource.resource.memo %}
+                    <li><span class="memo">{{ tag_resource.resource.memo }}</span></li>
+                    {% endif %}
+                    
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>リソースはありません</p>
+    {% endif %}
 {% endblock %}

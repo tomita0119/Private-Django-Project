@@ -203,6 +203,8 @@ def group_index(request, group_id):
     tag_resources = TagResource.objects.filter(group=group)
     comments = Comment.objects.filter(group=group).order_by('-commented')
     
+    join_users_count_half = join_users.count() / 2
+    
     context = {
         'title': group.name,
         'message': message,
@@ -217,6 +219,7 @@ def group_index(request, group_id):
         'tag_resources': tag_resources,
         'comment_form': comment_form,
         'comments': comments,
+        'join_users_count_half': join_users_count_half,
     }
     
     return render(request, 'surm/group_index.html', context)
