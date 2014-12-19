@@ -2,6 +2,10 @@
 {% load bootstrap3 %}
 {% load static from staticfiles %}
 
+{% block additional_static %}
+<link href="{% static 'css/account_info.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block header %}
@@ -15,4 +19,11 @@
 {% endblock %}
 
 {% block content %}
+<h3 class="headding_3">{{ user.username }}さんの情報</h3>
+<ul class="user_info">
+    <li>ユーザ名 : {{ user.username }}</li>
+    <li>メールアドレス : {{ user.email }}</li>
+    <li>登録日 : {{ user.date_joined }}</li>
+    <li>最終ログイン日 : {{ user.last_login }}</li>
+</ul>
 {% endblock %}

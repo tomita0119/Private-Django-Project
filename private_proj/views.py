@@ -20,6 +20,6 @@ def profile(request):
 
 def account_info(request, user_id):
     context = {
-        'title': request.user.username + u'さんのマイページ'
+        'title': request.user.username + u'さんの情報'
     }
     return render(request, 'private_proj/account_info.html', context)
