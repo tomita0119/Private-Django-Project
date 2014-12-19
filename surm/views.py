@@ -261,6 +261,9 @@ def group_settings(request, group_id):
 
 
 def tag_filtering(request, group_id, tag_id):
+    
+    comment_form = CommentForm()
+    
     group = get_object_or_404(Group, pk=group_id)
     join_users = User.objects.filter(joingroup__group__exact=group)
     group_tags = Tag.objects.filter(group=group).order_by('tag')
@@ -269,6 +272,9 @@ def tag_filtering(request, group_id, tag_id):
     
     tag = get_object_or_404(Tag, pk=tag_id)
     tag_resources = TagResource.objects.filter(group=group, tag=tag)
+    
+    resources = Resource.objects.filter(tagresource__group__exact=group, tagresource__tag__exact=tag).order_by('-created')
+    print resources
     
     context = {
         'title': u'About 「' +tag.tag+ u'」',
@@ -279,6 +285,8 @@ def tag_filtering(request, group_id, tag_id):
         'favorite_resources_history': favorite_resources_history,
         'tag': tag,
         'tag_resources': tag_resources,
+        'resources': resources,
+        'comment_form': comment_form,
     }
     
     return render(request, 'surm/tag_filtering.html', context)

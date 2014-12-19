@@ -68,6 +68,7 @@
         
         <div class="col-sm-7">
             {% block center-content %}
+            {% block except-resource-list-content %}
             <h3 class="headding_3 post_resource_headding">リソースの投稿</h3>
             <hr class="headding_3_underline" />
             <p>URLを入力すればリソースタイトルは自動入力されます．</p>
@@ -80,6 +81,8 @@
             
             <h3 class="headding_3">投稿されたリソース一覧</h3>
             <hr class="headding_3_underline" />
+            {% endblock %}
+            {% block resource-list-content %}
             {% if resources %}
                 <ul class="posted_resources">
                 {% for resource in resources %}
@@ -144,6 +147,7 @@
             {% else %}
                 <p>投稿されたリソースはありません</p>
             {% endif %}
+            {% endblock %}
             {% endblock %}
         </div>
         
