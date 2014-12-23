@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block content %}
-{% if user.is_superuser %}
+{% if user.id == group.creater.id %}
     <h4>参加していないユーザ</h4>
     {% if all_users %}
     <table class="table table-striped">
