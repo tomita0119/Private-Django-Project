@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-import urllib
+import urllib2
 import re
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.contrib.auth.models import User, Group
-from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, Http404
-from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, Comment, CreateGroupForm, AddResourceForm, GroupSettingsForm, CommentForm
+from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, Comment, CreateGroupForm, AddResourceForm, AddResourceExceptForm, GroupSettingsForm, CommentForm
 
 def index(request):
     
@@ -108,15 +107,19 @@ def group_index(request, group_id):
             new_actionhistory = ActionHistory(user=request.user, group=group, kind='resource_view', resource=select_resource)
             new_actionhistory.save()
             
+        elif 'name' in request.POST: # get_resourcetitle_errorからポストされた場合
+            print 'testtest'
+            
         elif 'url' in request.POST: # urlがrequest.POST内にあれば以下の処理
             form = AddResourceForm(request.POST)
             if form.is_valid(): # バリデート
                 # ページタイトルはre，urllibを使ってURLから取得
-                posted_url_info = urllib.urlopen(form.cleaned_data['url']).read()
+                posted_url_info = urllib2.urlopen(form.cleaned_data['url']).read()
                 pattern = re.compile(r'<title>(.*)</title>', re.IGNORECASE)
                 title = pattern.findall(posted_url_info)
                 memos = re.split(r'\[(.*)\]', form.cleaned_data['memo']) # 正規表現でタグ以降だけ抽出
-                print title
+                if len(title) == 0: # titleに何も入ってない(リソースタイトルを取って来れなかった場合)
+                    return redirect('surm.views.get_resourcetitle_error', group_id=group.id)
                 try: # メモにタグしか書かなかった場合，IndexErrorを吐くのでそのときは例外処理
                     new_resource = Resource(name=title[0].decode('utf-8'), url=form.cleaned_data['url'], creater=request.user, group=group, memo=memos[2])
                 except IndexError:
@@ -323,3 +326,14 @@ def my_favorite(request, group_id):
         'message': message,
     }
     return render(request, 'surm/my_favorite.html', context)
+
+
+def get_resourcetitle_error(request, group_id):
+    group = get_object_or_404(Group, pk=group_id)
+    form = AddResourceExceptForm()
+    context = {
+        'title' : 'Get ResourceTitle Error',
+        'group': group,
+        'form': form,
+    }
+    return render(request, 'surm/get_resourcetitle_error.html', context)

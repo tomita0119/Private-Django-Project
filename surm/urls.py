@@ -8,6 +8,7 @@ urlpatterns = patterns('surm.views',
     url(r'^(?P<group_id>\d+)/settings', 'group_settings'),
     url(r'^(?P<group_id>\d+)/(?P<tag_id>\d+)/$', 'tag_filtering'),
     url(r'^(?P<group_id>\d+)/favorite', 'my_favorite'),
+    url(r'^(?P<group_id>\d+)/get_resourcetitle_error', 'get_resourcetitle_error'),
     
     url(r'^accounts/', include('registration.backends.default.urls')),
 )

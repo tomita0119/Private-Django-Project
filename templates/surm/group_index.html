@@ -47,7 +47,7 @@
                     {% for join_user in join_users %}
                         <li><span class="username">{{ join_user.username }}</span>
                             {% if join_user.id == group.creater.id %}
-                                <span class="label label-danger">管理者</span>
+                                <span class="label label-xs label-danger">管理者</span>
                             {% endif %}
                         </li>
                     {% endfor %}

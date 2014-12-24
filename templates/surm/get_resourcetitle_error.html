@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load static from staticfiles %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h4>申し訳ございません．リソースタイトル取得に失敗しました．お手数ですがリソースタイトルを入力してください．</h4>
+<form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+{% endblock %}

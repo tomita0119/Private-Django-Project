@@ -93,6 +93,12 @@ class AddResourceForm(forms.Form):
     url = forms.URLField(max_length=100, label='URL')
     memo = forms.CharField(required=False, max_length=200, widget=forms.Textarea, label='Memo (Optional)')
 
+# リソース追加のフォーム(エラーが出た時の例外)
+class AddResourceExceptForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    url = forms.URLField(max_length=100, label='URL')
+    memo = forms.CharField(required=False, max_length=200, widget=forms.Textarea, label='Memo (Optional)')
+
 # グループ設定のフォーム
 class GroupSettingsForm(forms.Form):
     group_name = forms.CharField(required=False, max_length=100, label='Group Name (Optional)')
