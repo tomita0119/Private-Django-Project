@@ -108,7 +108,22 @@ def group_index(request, group_id):
             new_actionhistory.save()
             
         elif 'name' in request.POST: # get_resourcetitle_errorからポストされた場合
-            print 'testtest'
+            add_resource_except_form = AddResourceExceptForm(request.POST)
+            if add_resource_except_form.is_valid():
+            
+                memos = re.split(r'\[(.*)\]', add_resource_except_form.cleaned_data['memo']) # 正規表現でタグ以降だけ抽出
+                
+                try: # メモにタグしか書かなかった場合，IndexErrorを吐くのでそのときは例外処理
+                    new_resource = Resource(name=add_resource_except_form.cleaned_data['name'], url=add_resource_except_form.cleaned_data['url'], creater=request.user, memo=memos[2], group=group)
+                except IndexError:
+                    new_resource = Resource(name=add_resource_except_form.cleaned_data['name'], url=add_resource_except_form.cleaned_data['url'], creater=request.user, group=group)
+                
+                new_resource.save()
+                
+                new_actionhistory = ActionHistory(user=request.user, group=group, kind='resource_post', resource=new_resource)
+                new_actionhistory.save()
+            
+            form = AddResourceForm()
             
         elif 'url' in request.POST: # urlがrequest.POST内にあれば以下の処理
             form = AddResourceForm(request.POST)
