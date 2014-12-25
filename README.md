@@ -3,7 +3,7 @@
 Share Useful Resources with Members の略
 
 ### インストールしたpipモジュール ###
-requirements.txtに記述
+requirements.txtに記述．
 
 ### テンプレート継承メモ ###
 
