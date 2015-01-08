@@ -108,6 +108,3 @@ class GroupSettingsForm(forms.Form):
 class CommentForm(forms.Form):
     comment = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder':'Comment'}))
 
-# メモ編集のフォーム
-class EditMemoForm(forms.Form):
-    memo = forms.CharField(max_length=200)
