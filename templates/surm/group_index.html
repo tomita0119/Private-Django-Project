@@ -4,7 +4,6 @@
 
 {% block additional_static %}
 <link href="{% static 'css/group_index.css' %}" rel="stylesheet">
-<script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/csrf_token_ajax.js' %}"></script>
 <script src="{% static 'js/group_index.js' %}"></script>
 {% endblock %}
@@ -72,7 +71,8 @@
             <h3 class="headding_3 post_resource_headding">リソースの投稿</h3>
             <hr class="headding_3_underline" />
             <p>URLを入力すればリソースタイトルは自動入力されます．</p>
-            <p>[]で囲む事でタグを付ける事ができます．(例: [JavaScript][Python][チュートリアル])</p>
+            <p>Memo内で付与したいタグを[]で囲む事でタグを付与する事ができます．</p>
+            <p>(例: [Django][Python][チュートリアル]Djangoのチュートリアルです．)</p>
             <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="post" class="form resource_add_form">
                 {% csrf_token %}
                 {% bootstrap_form form %}
@@ -103,9 +103,14 @@
                             <li> 
                                 <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>{{ resource.resourceuserfavorite_set.all.count }}　<span class="label label-danger views">{% if resource.view >= 2 %}{{ resource.view }} Views{% else %}{{ resource.view }} View{% endif %}</span>
                             </li>
-                            {% if resource.memo %}
-                            <li><span class="memo">{{ resource.memo }}</span></li>
-                            {% endif %}
+                            <li>
+                                <span class="memo">{% if resource.memo %}{{ resource.memo }}{% else %}&nbsp;{% endif %}</span>
+                                <button class="memo_edit icon_button" id="{{ resource.id }}"><i class="fa fa-pencil"></i></button>
+                                <div class="memo_edit_parts">
+                                    <input type="text" class="memo_edit_area form-control" id="{{ resource.id }}"/>
+                                    <button class="btn btn-sm btn-default">Complete</button>
+                                </div>
+                            </li>
                             <li>
                                 <i class="fa fa-tags"></i>
                                 {% for tag in resource.tagresource_set.all %}

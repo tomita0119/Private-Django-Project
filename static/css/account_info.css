@@ -1,7 +1,10 @@
 .user_info{
     padding-left: 10px;
 }
-.user_info li{
+.user_info tr td{
     font-size: 18px;
     margin-bottom: 10px;
+}
+.user_info tr td:first-child{
+    background: #dee4f3;
 }

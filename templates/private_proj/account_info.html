@@ -20,10 +20,22 @@
 
 {% block content %}
 <h3 class="headding_3">{{ user.username }}さんの情報</h3>
-<ul class="user_info">
-    <li>ユーザ名 : {{ user.username }}</li>
-    <li>メールアドレス : {{ user.email }}</li>
-    <li>登録日 : {{ user.date_joined }}</li>
-    <li>最終ログイン日 : {{ user.last_login }}</li>
-</ul>
+<table class="table user_info">
+    <tr>
+        <td>ユーザ名</td>
+        <td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <td>メールアドレス</td>
+        <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+        <td>登録日</td>
+        <td>{{ user.date_joined }}</td>
+    </tr>
+    <tr>
+        <td>最終ログイン日</td>
+        <td>{{ user.last_login }}</td>
+    </tr>
+</table>
 {% endblock %}

@@ -104,5 +104,10 @@ class GroupSettingsForm(forms.Form):
     group_name = forms.CharField(required=False, max_length=100, label='Group Name (Optional)')
     explain = forms.CharField(required=False, max_length=100, widget=forms.Textarea, label='Explain (Optional)')
 
+# コメント追加のフォーム
 class CommentForm(forms.Form):
     comment = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder':'Comment'}))
+
+# メモ編集のフォーム
+class EditMemoForm(forms.Form):
+    memo = forms.CharField(max_length=200)

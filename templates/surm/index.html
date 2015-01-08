@@ -13,12 +13,19 @@
     <p class="message">{{ message }}</p>
     {% endif %}
     <ol class="breadcrumb">
-        <li class="active">{{ user.username }} - SURM</li>
+        <li class="active">
+        {% if user.username %}
+        {{ user.username }} - SURM
+        {% else %}
+        Guest - SURM
+        {% endif %}
+        </li>
     </ol>
 {% endblock %}
 
 {% block content %}
     <div class="row">
+        {% if user.is_authenticated %}
         <div class="col-sm-8">
             <h3 class="headding_3">参加しているグループ</h3>
             {% if mygroups %}
@@ -81,5 +88,13 @@
                 {% endfor %}
             </ul>
         </div>
+        {% else %}
+        <div class="col-sm-8">
+            <p>ログインしてください</p>
+        </div>
+        <div class="col-sm-4">
+            
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

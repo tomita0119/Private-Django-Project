@@ -6,7 +6,7 @@ import json
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, Http404
-from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, Comment, CreateGroupForm, AddResourceForm, AddResourceExceptForm, GroupSettingsForm, CommentForm
+from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, Comment, CreateGroupForm, AddResourceForm, AddResourceExceptForm, GroupSettingsForm, CommentForm, EditMemoForm
 
 def index(request):
     
