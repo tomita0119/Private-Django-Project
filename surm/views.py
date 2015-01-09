@@ -8,6 +8,10 @@ from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, Http404
 from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, Comment, CreateGroupForm, AddResourceForm, AddResourceExceptForm, GroupSettingsForm, CommentForm
 
+from django.core.email import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
+
 def index(request):
     
     message = None
