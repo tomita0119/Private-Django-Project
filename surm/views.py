@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, Http404
 from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUserFavorite, Tag, TagResource, ActionHistory, Comment, CreateGroupForm, AddResourceForm, AddResourceExceptForm, GroupSettingsForm, CommentForm
 
-from django.core.email import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 
@@ -157,6 +157,31 @@ def group_index(request, group_id):
                     #new_tag.save()
                     new_tag_resource = TagResource.objects.get_or_create(group=group, resource=new_resource, tag=new_tag[0])
                     #new_tag_resource.save()
+                
+                ## グループのメンバーにメール通知 ##
+                ## !【todo】hitomita@is.kochi-u.ac.jp に送る設定になっているので，グループメンバーに送る様に直す 
+                ## リソース削除された時等，よく使う事になるのでこの部分は関数化できない？
+                
+                # テンプレート読み込み
+                plaintext = get_template('email.txt')
+                
+                # テンプレートに流し込む情報を整理
+                sender = 'tomita.research@gmail.com'
+                group = group
+                user = request.user
+                resource_name = title[0].decode('utf-8')
+                
+                # 送信先
+                recipients = ['hitomita@is.kochi-u.ac.jp']
+                subject = u'リソースが投稿されました'
+                
+                # テンプレートに整理した情報を流し込む
+                d = Context({'group': group, 'user': user, 'resource_name': resource_name})
+                textcontent = plaintext.render(d)
+                
+                # メール送信
+                msg = EmailMultiAlternatives(subject, textcontent, sender, recipients)
+                msg.send()
                 
                 form = AddResourceForm()
                 
