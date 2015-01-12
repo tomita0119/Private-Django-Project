@@ -8,7 +8,8 @@ $(document).ready(function(){
     });
     
     $('.memo_edit').click(function(){ EditMemo(this) });
-    $('.memo_edit_area').blur(function(){ CompleteEditMemo(this) });
+    $('.memo_edit_area').parent().children('.complete_button').click(function(){ CompleteEditMemo(this) });
+    $('.memo_edit_area').parent().children('.cancel_button').click(function(){ CancelEditMemo(this) });
     
     function clickbtn(button){
         console.log(button.id);
@@ -63,6 +64,31 @@ $(document).ready(function(){
     }
     
     function CompleteEditMemo(button){
+        var resource_id = $(button).parent().children('.memo_edit_area').attr('id');
+        var memo_edit_value = $(button).parent().children('.memo_edit_area').val();
+            
+        $.ajax({
+            'url': $('form.resource_add_form').attr('action'),
+            'type': 'POST',
+            'data': {
+                'memo_edit_resource_id': resource_id,
+                'memo_edit_value':  memo_edit_value
+            },
+            'dataType': 'json',
+            'success': function(response){
+                console.log(response.edit_success);
+                if(response.edit_success){
+                    $(button).parent().css('display', 'none');
+                    $(button).parent().parent().children('button.memo_edit').show();
+                    $(button).parent().parent().children('span.memo')
+                        .text($(button).parent().children('.memo_edit_area').val())
+                        .show();
+                }
+            },
+        });
+    }
+    
+    function CancelEditMemo(button){
         console.log('aaaa');
         $(button).parent().css('display', 'none');
         $(button).parent().parent().children('span.memo').show();

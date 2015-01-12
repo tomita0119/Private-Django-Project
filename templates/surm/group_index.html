@@ -104,11 +104,14 @@
                                 <button class="fav_button icon_button" id="{{ resource.id }}"><i class="fa fa-star"></i></button>{{ resource.resourceuserfavorite_set.all.count }}　<span class="label label-danger views">{% if resource.view >= 2 %}{{ resource.view }} Views{% else %}{{ resource.view }} View{% endif %}</span>
                             </li>
                             <li>
-                                <span class="memo">{% if resource.memo %}{{ resource.memo }}{% else %}&nbsp;{% endif %}</span>
+                                <span class="memo">{% if resource.memo %}{{ resource.memo }}{% else %}{% endif %}</span>
+                                {% if user.id == resource.creater.id %}
                                 <button class="memo_edit icon_button" id="{{ resource.id }}"><i class="fa fa-pencil"></i></button>
+                                {% endif %}
                                 <div class="memo_edit_parts">
                                     <input type="text" class="memo_edit_area form-control" id="{{ resource.id }}"/>
-                                    <button class="btn btn-sm btn-default">Complete</button>
+                                    <button class="btn btn-sm btn-default complete_button">Complete</button>
+                                    <button class="btn btn-sm btn-default cancel_button">Cancel</button>
                                 </div>
                             </li>
                             <li>

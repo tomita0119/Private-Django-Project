@@ -212,7 +212,7 @@ def group_index(request, group_id):
             
         elif 'dlt_resource_id' in request.POST:
             
-            # 【メモ】リレーションを貼ってるレコードもDJangoが自動で削除してくれるっぽい
+            # 【メモ】リレーションを貼ってるレコードもDjangoが自動で削除してくれるっぽい
             resource = get_object_or_404(Resource, pk=request.POST['dlt_resource_id'])
             resource.delete()
             
@@ -231,6 +231,15 @@ def group_index(request, group_id):
                 new_comment.save()
                 message = select_resource.name + u'にコメントを書き込みました'
                 comment_form_flg = True
+            form = AddResourceForm()
+            
+        elif 'memo_edit_resource_id' in request.POST:
+            select_resource = get_object_or_404(Resource, pk=request.POST['memo_edit_resource_id'])
+            select_resource.memo = request.POST['memo_edit_value']
+            select_resource.save()
+            response = json.dumps({'edit_success': True})
+            return HttpResponse(response, mimetype='text/javascript')
+            
             form = AddResourceForm()
             
         else: # それ以外(多分有り得ない)
