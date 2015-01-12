@@ -234,6 +234,7 @@ def group_index(request, group_id):
             form = AddResourceForm()
             
         elif 'memo_edit_resource_id' in request.POST:
+            # !タグもちゃんと登録できる様にする
             select_resource = get_object_or_404(Resource, pk=request.POST['memo_edit_resource_id'])
             select_resource.memo = request.POST['memo_edit_value']
             select_resource.save()
