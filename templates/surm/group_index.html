@@ -106,7 +106,7 @@
                             <li>
                                 <span class="memo">{% if resource.memo %}{{ resource.memo }}{% else %}{% endif %}</span>
                                 {% if user.id == resource.creater.id %}
-                                <button class="memo_edit icon_button" id="{{ resource.id }}"><i class="fa fa-pencil"></i></button>
+                                <button class="memo_edit icon_button" id="{{ resource.id }}" title="メモの編集"><i class="fa fa-pencil"></i></button>
                                 {% endif %}
                                 <div class="memo_edit_parts">
                                     <input type="text" class="memo_edit_area form-control" id="{{ resource.id }}"/>
@@ -152,6 +152,9 @@
                     </li>
                 {% endfor %}
                 </ul>
+                <div class="moreread" id="more1">
+                    <a href="javascript:void(0)" class="resource_moreread" id="1">もっと読む</a>
+                </div>
             {% else %}
                 <p>投稿されたリソースはありません</p>
             {% endif %}

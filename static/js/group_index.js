@@ -3,9 +3,7 @@ $(document).ready(function(){
     $('.fav_button').click(function(){ FavoriteResource(this) });
     $('.dlt_button').click(function(){ ShowConfirm(this) });
     
-    $('.show_comment').click(function(){
-        $(this).next().toggle();
-    });
+    $('.show_comment').click(function(){ $(this).next().toggle(); });
     
     $('.memo_edit').click(function(){ EditMemo(this) });
     $('.memo_edit_area').parent().children('.complete_button').click(function(){ CompleteEditMemo(this) });
@@ -93,4 +91,23 @@ $(document).ready(function(){
         $(button).parent().css('display', 'none');
         $(button).parent().parent().children('span.memo').show();
     }
+    
+    $('.resource_moreread').click(function(){
+        var ID = $(this).attr('id');
+        console.log(ID);
+        if(ID){
+            $('#more'+ID).html('<p>読み込み中...</p>');
+            $.ajax({
+                'url': $('form.resource_add_form').attr('action'),
+                'type': 'POST',
+                'data': {
+                    'moreid': ID
+                },
+                'dataType': 'json',
+                'success': function(response){
+                    console.log(response.moreread_success);
+                }
+            });
+        }
+    });
 });

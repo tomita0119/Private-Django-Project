@@ -80,7 +80,7 @@ def cre_group(request):
 
 
 def group_index(request, group_id):
-    
+    # !【todo】リソースを全部読み込むのではなく「もっと読む」ボタンで数件ずつ読み込める様にする
     message = None
     
     group = get_object_or_404(Group, pk=group_id)
@@ -234,11 +234,20 @@ def group_index(request, group_id):
             form = AddResourceForm()
             
         elif 'memo_edit_resource_id' in request.POST:
-            # !タグもちゃんと登録できる様にする
+            # !【todo】タグもちゃんと登録できる様にする
             select_resource = get_object_or_404(Resource, pk=request.POST['memo_edit_resource_id'])
             select_resource.memo = request.POST['memo_edit_value']
             select_resource.save()
             response = json.dumps({'edit_success': True})
+            return HttpResponse(response, mimetype='text/javascript')
+            
+            form = AddResourceForm()
+            
+        elif 'moreid' in request.POST:
+#             from django.core import serializers
+#             more_resources = Resource.objects.filter(group=group).order_by('-created')[6:10]
+#             data = serializers.serialize('json', more_resources)
+            response = json.dumps({'moreread_success': True})
             return HttpResponse(response, mimetype='text/javascript')
             
             form = AddResourceForm()
@@ -252,7 +261,7 @@ def group_index(request, group_id):
     if comment_form_flg == False:
         comment_form = CommentForm()
     
-    resources = Resource.objects.filter(group=group).order_by('-created')
+    resources = Resource.objects.filter(group=group).order_by('-created')[:5]
     read_users = ResourceUserView.objects.filter(group=group)
     favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:5]
     my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')[:5]
