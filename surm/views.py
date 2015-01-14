@@ -261,7 +261,7 @@ def group_index(request, group_id):
     if comment_form_flg == False:
         comment_form = CommentForm()
     
-    resources = Resource.objects.filter(group=group).order_by('-created')[:5]
+    resources = Resource.objects.filter(group=group).order_by('-created')
     read_users = ResourceUserView.objects.filter(group=group)
     favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:5]
     my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')[:5]
