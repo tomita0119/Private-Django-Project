@@ -11,6 +11,7 @@ from surm.models import Group, JoinGroup, Resource, ResourceUserView, ResourceUs
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
     
@@ -261,7 +262,19 @@ def group_index(request, group_id):
     if comment_form_flg == False:
         comment_form = CommentForm()
     
-    resources = Resource.objects.filter(group=group).order_by('-created')
+    resource_list = Resource.objects.filter(group=group).order_by('-created')
+    paginator = Paginator(resource_list, 5)
+    
+    page = request.GET.get('page')
+    try:
+        resources = paginator.page(page)
+    except PageNotAnInteger:
+        resources = paginator.page(1)
+    except EmptyPage:
+        resources = paginator.page(paginator.num_pages)
+        
+    
+#     resources = Resource.objects.filter(group=group).order_by('-created')
     read_users = ResourceUserView.objects.filter(group=group)
     favorite_resources_history = ResourceUserFavorite.objects.filter(group=group).order_by('-favorited')[:5]
     my_favorite_resources = ResourceUserFavorite.objects.filter(group=group, user=request.user).order_by('-favorited')[:5]

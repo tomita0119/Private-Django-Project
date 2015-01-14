@@ -155,6 +155,21 @@
                 <div class="moreread" id="more1">
                     <a href="javascript:void(0)" class="resource_moreread" id="1">もっと読む</a>
                 </div>
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if resources.has_previous %}
+                            <a href="?page={{ resources.previous_page_number }}">previous</a>
+                        {% endif %}
+                        
+                        <span class="current">
+                            Page {{ resources.number }} of {{ resources.paginator.num_pages }}.
+                        </span>
+                        
+                        {% if resources.has_next %}
+                            <a href="?page={{ resources.next_page_number }}">next</a>
+                        {% endif %}
+                    </span>
+                </div>
             {% else %}
                 <p>投稿されたリソースはありません</p>
             {% endif %}
