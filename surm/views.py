@@ -305,7 +305,7 @@ def group_index(request, group_id):
         resource_list = Resource.objects.filter(group=group).order_by('-created')
         paginator = Paginator(resource_list, 5)
     
-    # ページネーション処理(未完成)あああいいい
+    # ページネーション処理(未完成)あああいいいううう
     page = request.GET.get('page')
     try:
         resources = paginator.page(page)
