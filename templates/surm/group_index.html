@@ -63,11 +63,20 @@
             </div>
             {% endblock %}
             
+            <div class="search_resource">
+                <h4>リソース検索</h4>
+                <form action="{% url 'surm.views.group_index' group_id=group.id %}" method="get" class="form resource_add_form">
+                {% csrf_token %}
+                <input type="text" name="q" class="form-control search_input" />
+                <button type="submit" class="btn btn-default btn-sm">Search</button>
+            </form>
+            </div>
         </div>
         
         <div class="col-sm-7 center-content">
             {% block center-content %}
             {% block except-resource-list-content %}
+            
             <h3 class="headding_3 post_resource_headding">リソースの投稿</h3>
             <hr class="headding_3_underline" />
             <p>URLを入力すればリソースタイトルは自動入力されます．</p>
@@ -79,7 +88,11 @@
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
             
+            {% if search_result %}
+            <h3 class="headding_3">「<span class="query">{{ search_result }}</span>」の検索結果</h3>
+            {% else %}
             <h3 class="headding_3">投稿されたリソース一覧</h3>
+            {% endif %}
             <hr class="headding_3_underline" />
             {% endblock %}
             {% block resource-list-content %}

@@ -13,6 +13,31 @@ from django.template.loader import get_template
 from django.template import Context
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+# !【メモ】メール送信用クラス メール送信が1ヶ所のみなので今のところコメントアウト
+# class Email:
+#     def __init__(self, group, user, email_template, resource_name):
+#         self.group = group
+#         self.user = user
+#         self.resource_name = resource_name
+#     def sendemail(self):
+#         join_users = User.objects.filter(joingroup__group__exact=group)
+#         join_users_email = []
+#         for join_user in join_users:
+#             join_users_email.append(join_users.email)
+#         plaintext = get_template(email_template)
+#         sender = 'tomita.research@gmail.com'
+#         group = self.group
+#         user = self.user
+#         resource_name = self.resource_name
+#         recipients = join_users_email
+#         subject = u'リソースが投稿されました'
+#         d = Context({'group': group, 'user': user, 'resource_name': resource_name})
+#         textcontent = plaintext.render(d)
+#         msg = EmailMultiAlternatives(subject, textcontent, sender, recipients)
+#         msg.send()
+    
+
+
 def index(request):
     
     message = None
@@ -81,8 +106,10 @@ def cre_group(request):
 
 
 def group_index(request, group_id):
-    # !【todo】リソースを全部読み込むのではなく「もっと読む」ボタンで数件ずつ読み込める様にする
+
     message = None
+    search_filtering_resources = None
+    search_result = None
     
     group = get_object_or_404(Group, pk=group_id)
     join_users = User.objects.filter(joingroup__group__exact=group)
@@ -160,8 +187,11 @@ def group_index(request, group_id):
                     #new_tag_resource.save()
                 
                 ## グループのメンバーにメール通知 ##
-                ## !【todo】hitomita@is.kochi-u.ac.jp に送る設定になっているので，グループメンバーに送る様に直す 
                 ## リソース削除された時等，よく使う事になるのでこの部分は関数化できない？
+                
+                join_users_email = []
+                for join_user in join_users:
+                    join_users_email.append(join_user.email)
                 
                 # テンプレート読み込み
                 plaintext = get_template('email.txt')
@@ -173,7 +203,7 @@ def group_index(request, group_id):
                 resource_name = title[0].decode('utf-8')
                 
                 # 送信先
-                recipients = ['hitomita@is.kochi-u.ac.jp']
+                recipients = join_users_email
                 subject = u'リソースが投稿されました'
                 
                 # テンプレートに整理した情報を流し込む
@@ -256,14 +286,24 @@ def group_index(request, group_id):
         else: # それ以外(多分有り得ない)
             form = AddResourceForm()
     
+    elif request.method == 'GET':
+        if 'q' in request.GET:
+            search_filtering_resources = Resource.objects.filter(name__contains=request.GET['q']).order_by('-created')
+            search_result = request.GET['q']
+            
+        form = AddResourceForm()
+    
     else: # POST値がない，普通のアクセスの場合
         form = AddResourceForm()
     
     if comment_form_flg == False:
         comment_form = CommentForm()
     
-    resource_list = Resource.objects.filter(group=group).order_by('-created')
-    paginator = Paginator(resource_list, 5)
+    if search_filtering_resources:
+        paginator = Paginator(search_filtering_resources, 5)
+    else:
+        resource_list = Resource.objects.filter(group=group).order_by('-created')
+        paginator = Paginator(resource_list, 5)
     
     page = request.GET.get('page')
     try:
@@ -302,6 +342,7 @@ def group_index(request, group_id):
         'comments': comments,
         'join_users_count_half': join_users_count_half,
         'recent_comments': recent_comments,
+        'search_result': search_result,
     }
     
     return render(request, 'surm/group_index.html', context)
