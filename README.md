@@ -10,4 +10,4 @@ requirements.txtに記述．
 
 Share Useful Resources with Members (仮)
 
-目的としては
+目的としてはグループメンバー内でのWeb上のページ(リソース)の共有
