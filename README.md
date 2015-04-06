@@ -6,7 +6,8 @@
 
 requirements.txtに記述．
 
-## SURM ##
+## 1. SURM ##
 
 Share Useful Resources with Members (仮)
 
+目的としては
