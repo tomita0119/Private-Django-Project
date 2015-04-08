@@ -2,7 +2,7 @@
 
 趣味で作っているDjangoアプリケーションを公開していく．
 
-### Requirement
+## Requirement
 
 このプロジェクトを運用する際は以下のアプリケーション・ライブラリが必要になります．
 
@@ -13,7 +13,25 @@ Python, pip をインストール後，requirements.txt を使いライブラリ
 
     pip install -r requirements.txt
 
-### Usage
+## Usage
+
+### setting.py の書き換え
+
+DBの設定を自分のサーバの設定に書き換える
+
+    DATABASES = {
+        'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'django-proj',
+            'USER': 'root',
+            'PASSWORD': 'password',
+            'HOST': '127.0.0.1',
+            'PORT': '',
+        }
+    }
+
+### アプリケーションの起動方法
 
 Django の runserver を使うのが一番手っ取り早い．
 
