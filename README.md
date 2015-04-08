@@ -17,7 +17,7 @@ Python, pip をインストール後，requirements.txt を使いライブラリ
 
 ### setting.py の書き換え
 
-DBの設定を自分のサーバの設定に書き換える
+DB, Email の設定を自分のサーバの設定に書き換える
 
     DATABASES = {
         'default': {
@@ -30,6 +30,12 @@ DBの設定を自分のサーバの設定に書き換える
             'PORT': '',
         }
     }
+
+    EMAIL_USE_TLS = 
+    EMAIL_HOST = 
+    EMAIL_HOST_USER = 
+    EMAIL_HOST_PASSWORD = 
+    EMAIL_PORT = 
 
 ### アプリケーションの起動方法
 
