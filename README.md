@@ -14,6 +14,16 @@ Python, pip をインストール後，requirements.txt を使いライブラリ
 
     pip install -r requirements.txt
 
+### Usage ###
+
+Django の runserver を使うのが一番手っ取り早い．
+
+    python manage.py runserver
+
+アプリケーションが起動したら以下のURLにアクセスするとアプリケーションリストが表示されます．
+
+    http://localhost:8000/
+
 ## 1. SURM ##
 
 Share Useful Resources with Members (仮)
