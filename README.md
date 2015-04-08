@@ -7,7 +7,6 @@
 このプロジェクトを運用する際は以下のアプリケーション・ライブラリが必要になります．
 
 - Python 2.7
-
 - pip
 
 Python, pip をインストール後，requirements.txt を使いライブラリのインストールを行って下さい．
@@ -26,7 +25,11 @@ Django の runserver を使うのが一番手っ取り早い．
 
 ## 1. SURM ##
 
-Share Useful Resources with Members (仮)
+サービス名は Share Useful Resources with Members の頭文字を取ったもの
 
 目的としてはグループメンバー内でのWeb上のページ(リソース)の共有
 
+### Todo ###
+
+- ページネーション(デザインも内部処理も)をもう少し凝る
+- メール送信機能
