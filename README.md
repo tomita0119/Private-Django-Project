@@ -51,7 +51,9 @@ Django の runserver を使うのが一番手っ取り早い．
 
 サービス名は Share Useful Resources with Members の頭文字を取ったもの
 
-目的としてはグループメンバー内でのWeb上のページ(リソース)の共有
+目的としては開発チーム等のグループ内のメンバー間でのWebページ(リソース)の共有
+
+### Usage
 
 ### Todo
 
